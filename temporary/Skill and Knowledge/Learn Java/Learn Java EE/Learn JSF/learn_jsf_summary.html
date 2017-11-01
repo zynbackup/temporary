@@ -1,0 +1,1975 @@
+﻿<html>
+<head>
+<meta charset="UTF-8">
+<script>
+//function to show and hide element
+function show(id){
+	if(document.getElementById(id).style.display === "none"){
+		document.getElementById(id).style.display="block";
+	}else{
+		document.getElementById(id).style.display="none";
+	} 
+}
+</script>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+div.code { 
+background-color: #d5dee3;
+border-top-width: 3px;
+border-top-style: double;
+border-top-color: #d3d3d3;
+border-bottom-width: 4px;
+border-bottom-style: double;
+border-bottom-color: #d3d3d3;
+padding: 4px; margin: 0em 
+}
+
+</style>
+</head>
+<body>
+<h1>===Learn JavaServer Faces (JSF) Framework using Dynamic Web Project===</h1>
+<br/>
+
+sources: <br/>
+* http://docs.oracle.com/javaee/5/tutorial/doc/bnaph.html <br/><br/>
+
+* http://docs.oracle.com/javaee/6/tutorial/doc/gjaam.html <br/>
+* http://docs.oracle.com/javaee/6/api/ <br/>
+* http://www.oracle.com/technetwork/java/javaee/javaserverfaces-139869.html; http://docs.oracle.com/javaee/5/tutorial/doc/bnaph.html <br/>
+* https://www.ntu.edu.sg/home/ehchua/programming/java/JavaServerFaces.html <br/>
+
+* https://docs.oracle.com/cd/E17802_01/j2ee/javaee/javaserverfaces/2.0/docs/api/ <br/>
+* http://docs.oracle.com/javaee/6/javaserverfaces/2.1/docs/vdldocs/facelets/ <br/>
+
+
+<h3>===These are steps to build and run Simple JSF Web Application Using Eclipse and Tomcat===</h3>
+<button type="button" onclick="show('jsf_eclipse_tomcat')">Show...</button> <br/>
+<div id="jsf_eclipse_tomcat" style="display:none">
+Note: This project use java 7 Update 51 <br/>
+
+1. Open Eclipse. <br/><br/>
+
+2. Create New "Dynamic Web Project" (image 1.1) <br/>
+<center><img src="image 1.1.jpg" width="853" height="480"><br/>image 1.1</center>
+Note: The advantages of using "Dynamic Web Project" is: If there is a changes in source code after the application is runnin in server, then eclipse automatically apply the changes and reload the web application, so we don't have to "clean, install, deploy" the web application. 
+<br/><br/>
+
+3. Fill in the project name (image 1.2) <br/><br/>
+
+4. Click "New Runtime..." button. (image 1.2) <br/>
+<center><img src="image 1.2.jpg" width="853" height="480"><br/>image 1.2</center><br/><br/>
+
+5. Choose the installed tomcat server, then click "finish" button. (image 1.3) <br/>
+<center><img src="image 1.3.jpg" width="853" height="480"><br/>image 1.3</center><br/><br/>
+
+6. Click "next" button. (image 1.4) <br/>
+<center><img src="image 1.4.jpg" width="853" height="480"><br/>image 1.4</center><br/><br/>
+
+7. Click "next" button. (image 1.5) <br/>
+<center><img src="image 1.5.jpg" width="853" height="480"><br/>image 1.5</center>
+note: All ".java file" under "/src" folder will be compiled to ".class file", and then saved in "build/classes" folder.<br/><br/>
+
+8. Fill in "Context Path", and "Content Directory" to name the folder to store files for the web (this is the same as "webapp" folder in a standart ".war" file), then click "Finish" button. <br/>
+<center><img src="image 1.6.jpg" width="853" height="480"><br/>image 1.6</center><br/><br/>
+
+9. Download the library (.jar file) need to run the Java Server Faces Framework: <br/>
+<center><img src="image 1.7.jpg" width="853" height="480"><br/>image 1.7</center><br/>
+<center><img src="image 1.8.jpg" width="853" height="480"><br/>image 1.8</center><br/><br/>
+<center><img src="image 1.8a.jpg" width="853" height="480"><br/>image 1.8a</center><br/><br/>
+
+10. Copy the libraries to the "WEB-INF\lib" folder: <br/>
+<center><img src="image 1.9.jpg" width="853" height="480"><br/>image 1.9</center><br/><br/>
+
+11. Create java package in the "src" folder: <br/>
+<center><img src="image 1.10.jpg" width="853" height="480"><br/>image 1.10</center><br/><br/>
+
+12. Create java class (<code>Managed Bean</code>) in that package: <br/>
+<center><img src="image 1.11.jpg" width="853" height="480"><br/>image 1.11</center><br/><br/>
+Name this <code>ManagedBean</code> with "helloWorld" using annotation <code>@ManagedBean(name = "helloWorld", eager = true)</code>:
+<center><img src="image 1.12.jpg" width="853" height="480"><br/>image 1.12</center><br/><br/>
+
+13. Create ".xhtml" file (view) in "/WebContent" folder: <br/>
+<center><img src="image 1.13.jpg" width="853" height="480"><br/>image 1.13</center><br/><br/>
+Note: <code>#{helloWorld.getWorld()}</code> will call method <code>public String getWorld()</code> of class <code>com.reinard.main.HelloWorld</code>:
+<center><img src="image 1.14.jpg" width="853" height="480"><br/>image 1.14</center><br/>
+File Hello.xhtml: <br/>
+<pre>
+&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"&gt;
+    &lt;h:head&gt;
+        &lt;title&gt;Facelets Hello World&lt;/title&gt;
+    &lt;/h:head&gt;
+    &lt;h:body&gt;
+        &lt;h:outputLabel value="#{helloWorld.getWord()}"&gt;&lt;/h:outputLabel&gt;
+    &lt;/h:body&gt;
+&lt;/html&gt;
+</pre> <br/><br/>
+
+14. Define the JSF Servlet and its mapping on "web.xml": <br/>
+<center><img src="image 1.15.jpg" width="853" height="480"><br/>image 1.15</center><br/>
+(Read <i>https://docs.oracle.com/cd/E13222_01/wls/docs92/webapp/configureservlet.html></i>, for more info how to map Servlet to URL.) <br/><br/>
+
+15. Right click on the project name and choose "Run As" -> "Run on Server": <br/>
+<center><img src="image 1.16.jpg" width="853" height="480"><br/>image 1.16</center><br/>
+
+Choose the existing server, click "next" button: <br/>
+<center><img src="image 1.17.jpg" width="853" height="480"><br/>image 1.17</center><br/>
+
+Add the project to the server, click finish: <br/>
+<center><img src="image 1.18.jpg" width="853" height="480"><br/>image 1.18</center><br/>
+
+Now the server should run: <br/>
+<center><img src="image 1.19.jpg" width="853" height="480"><br/>image 1.19</center><br/><br/>
+
+16. The "hello.xhtml" could be accessed at http://[ip]:[server listening port]/[context-path]/hello.xhtml <br/>
+<center><img src="image 1.20.jpg" width="853" height="480"><br/>image 1.20</center><br/><br/>
+
+</div>
+==================================================================================<br/><br/><br/>
+
+* To display image from html, place your images inside the "WebContent" directory, or packaged in ".jar" file. <br/>
+Example: <br/>
+
+<center><img src="show_images.jpg" width="853" height="480"><br/>image 1.21</center><br/><br/>
+
+<br/><br/>
+* <b>If your servlet url mapping allowed, you can access all "resource" folder in ".jar" file under "WEB-INF/lib" directory.</b> <br/>
+Example: <br/>
+a. Your "web.xml" file contains no servlet declaration and mapping. <br/>
+b. You have file "my_lib.jar" that contains: <br/>
+<code>
+META-INF/ <br/>
+&nbsp;&nbsp;resources/ <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Desert.jpg <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;hello.xhtml <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;hello1.html <br/>
+</code>
+
+c. Put the file "my_lib.jar" inside "WEB-INF/lib" directory:<br/>
+<center><img src="image 1.21.jpg" width="853" height="480"><br/>image 1.21</center><br/><br/>
+d. Now, run the server. <br/>
+e. You can access all file, using: http://[ip]:[server listening port]/[context-path]/[file-name] <br/>
+Example: <br/>
+http://localhost:38080/learn-jsf/Desert.jpg <br/>
+http://localhost:38080/learn-jsf/hello.xhtml <br/>
+http://localhost:38080/learn-jsf/hello1.html <br/><br/><br/><br/>
+
+
+<h3>===JavaServer Faces (JSF) Framework Summary===</h3>
+source: <br/>
+* http://docs.oracle.com/javaee/5/tutorial/doc/bnaph.html <br/><br/>
+* http://www.oracle.com/technetwork/java/javaee/documentation/index-137726.html <br/>
+
+
+* The basic of JSF is on Java EE 5 tutorial (http://docs.oracle.com/javaee/5/tutorial/doc/bnaph.html) <br/>
+
+* <b>Java Servlet technology is the foundation of all the web application technologies.</b><br/><br/>
+
+* <b>JavaServer Faces technology is a server-side user interface component framework for Java technology-based web applications.</b> <br/><br/>
+
+* <b>The main components of JavaServer Faces technology are as follows:</b> <br/>
+<ul>
+<li>An API for representing UI components and managing their state; handling events, server-side validation, and data conversion; defining page navigation; supporting internationalization and accessibility; and providing extensibility for all these features</li><br/>
+<li>Tag libraries for adding components to web pages and for connecting components to server-side objects.</li>
+</ul>
+<i>Note: JSP can include JSF tag.</i> <br/><br/>
+
+* <b>A JSF application can map HTTP requests to component-specific event handling nor manage UI elements as stateful objects on the server. </b><br/><br/>
+
+* The JavaServer Faces technology APIs are layered directly on top of the Servlet API, as shown in Figure 3-2. This layering of APIs enables several important application use cases, such as using another presentation technology instead of JSP pages, creating your own custom components directly from the component classes, and generating output for various client devices. <br/><br/>
+<center><img src="figure 4-2.gif"><br/>Figure 4-2 Java Web Application Technologies<br/></center> <br/><br/>
+
+* JavaServer Faces applications must be compliant with the Servlet specification, version 2.3 (or later) and the JavaServer Pages specification, version 1.2 (or later). All applications compliant with these specifications are packaged in a WAR file, which must conform to specific requirements in order to execute across different containers. <br/>
+The WAR file typically has this directory structure: <br/>
+<pre>
+index.html 
+JSP pages 
+WEB-INF/
+&nbsp;&nbsp;web.xml
+&nbsp;&nbsp;faces-config.xml
+&nbsp;&nbsp;tag library descriptors (optional)
+&nbsp;&nbsp;classes/
+&nbsp;&nbsp;&nbsp;class files
+&nbsp;&nbsp;&nbsp;&nbsp;Properties files
+&nbsp;&nbsp;lib/
+&nbsp;&nbsp;&nbsp;JAR files
+</pre><br/>
+
+* <b>One requirement of a JavaServer Faces application is that all requests to the application must go through "FacesServlet". </b><br/><br/>
+
+* <b>A "FacesServlet" instance manages the request processing life cycle for web applications and initializes the resources required by JavaServer Faces technology.</b> <br/><br/>
+
+* Before a JavaServer Faces application can launch the first page (View), the web container must invoke the "FacesServlet instance" in order for the application life cycle process to start. <br/>
+(<i>The application life cycle is described in the section "The Life Cycle of a JavaServer Faces Page".</i>)<br/><br/>
+
+* To make sure that the FacesServlet instance is invoked, you provide a mapping to it.<br/>
+(Read <i>https://docs.oracle.com/cd/E13222_01/wls/docs92/webapp/configureservlet.html></i>, for more info how to map Servlet to URL.) <br/>
+<pre>
+&lt;!-- Define a FacesServlet Class--&gt;
+&lt;servlet&gt;
+    &lt;display-name&gt;FacesServlet&lt;/display-name&gt;
+    &lt;servlet-name&gt;FacesServlet&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;javax.faces.webapp.FacesServlet&lt;/servlet-class&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+&lt;/servlet&gt;
+&lt;!-- Mapping FacesServlet to URL--&gt;
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;FacesServlet&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/guess/*&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+</pre><br/><br/>
+
+* <b>Because the view (.xhtml) page, is compiled, compiler will give error if there is any incomplete or incorrect syntax. Example: forget to add double quote in attribute value.</b> <br/><br/>
+
+
+<h3>===The Life Cycle of a JavaServer Faces Page===</h3>
+(for more info, read: <i>http://docs.oracle.com/javaee/6/tutorial/doc/bnaqq.html</i>)<br/>
+<button type="button" onclick="show('lifecycle_jsf')">Show...</button> <br/>
+<div id="lifecycle_jsf" style="display:none">
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;In summary, The life cycle of a JSF page is: <b>The client makes an HTTP request for the page, and the server responds with the page translated to HTML.</b> <br/><br/>
+
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;The JSF implementation performs all these tasks as a series of steps in the JSF request-response life cycle. Figure 10-3 ilustrates these steps. <br/><br/>
+
+<center><img src="jsfIntro-lifecycle.gif"><br/>Figure 10-3. JSF Standard Request-Response Life Cycle<br/></center> <br/><br/>
+
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;A JSF is different from a JSP page in that it is represented by a tree of UI components, called a VIEW. <br/><br/>
+
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;The life cycle handles both kinds of requests: <b>"Initial Requests"</b> and <b>"Postbacks"</b>. <br/><br/>
+
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;When a user makes an <b>"Initial Requests"</b> for a page, he or she is requesting the page for the first time. Usually, the first request for a JSF pages is an http request to the JSF page. The system then creates a new VIEW and stores it in the "javax.faces.context.FacesContext" instance.  The application then acquires object references needed by the VIEW and calls "javax.faces.context.FacesContext.renderResponse()", which forces immediate rendering of the view, as is shown by the arrows labelled "Render Response" in the diagram. <b>When the life cycle handles an <b>"Initial Request"</b>, it only executes the "Restore View" and "Render Response" phases because there is no user input or actions to process.</b>
+<br/><br/>
+Note: Sometimes, an application might need to redirect to a different web application resource, such as a web service, or generate a response that does not contain JSF components. In these situations, the developer must skip the rendering phase ("Render Response" Phase) by calling "javax.faces.context.FacesContext.getCurrentInstance().responseComplete()". This situation is also shown in the diagram, this time with the arrows labelled "Response Complete". <br/>
+Example: <br/>
+<div class="code">
+<pre>
+package com.agci.test.bean;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+
+@ManagedBean
+@SessionScoped
+public class AdjustmentListReinardBean {
+	
+	//method to redirect to "home.xhtml"
+	public void close() throws Exception{
+		//must skip the rendering phase
+		FacesContext.getCurrentInstance().responseComplete();
+		//redirect to home.xhtml
+		FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+	}
+	
+}</pre></div>
+<br/><br/>
+
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;When a user executes a <b>"Postbacks"</b>, he or she submits the form contained on a page that was previously loaded into the browser as a result of executing an <b>"Initial Requests"</b>. <b>When the life cycle handles a <b>"Postbacks"</b>, it executes all of the phases.</b> <br/><br/>
+
+<h3>&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;"Restore View" phase</h3>
+If the request for the page is an <b>"Initial Request"</b>, the JavaServer Faces implementation creates an empty view during this phase and the lifecycle advances to the "Render Response" phase, during which the empty view is populated with the components referenced by the tags in the page. All the application’s components, event handlers, converters, and validators is now in the "javax.faces.context.FacesContext" instances.<br/>
+Note: you can see find the ui component in the FaceContext using code in "ManagedBean":
+<pre>
+FacesContext.getCurrentInstance().getViewRoot().findComponent("label1234");
+</pre>
+
+<br/><br/>
+If the request for the page is an <b>"Postbacks"</b>,  a view corresponding to this page already exists in the FacesContext instance. During this phase, the JavaServer Faces implementation restores the view by using the state information saved on the client or the server.<br/>
+<br/><br/>
+
+Note: <b>There is one exception to the lifecycle described in this section. When a component's immediate attribute is set to true, the validation, conversion, and events associated with these components are processed during the "Apply Request" phase rather than in a later phase. </b>
+<br/><br/><br/>
+
+* <b>The "javax.faces.context.FacesContext" instance, represents all of the contextual information associated with processing an incoming request and creating a response.</b> <br/>
+FacesContext contains all of the per-request state information related to the processing of a single JavaServer Faces request, and the rendering of the corresponding response. It is passed to, and potentially modified by, each phase of the request processing lifecycle. (for more info, read: http://docs.oracle.com/javaee/6/api/javax/faces/context/FacesContext.html) <br/>
+<br/><br/>
+
+* <b>All the application’s component tags, event handlers, converters, and validators have access to the "FacesContext" instance.</b><br/><br/>
+
+<br/><br/><br/><br/>
+* <b>JSF technology is based on the Model View Controller (MVC) architecture for separating logic from presentation.</b><br/><br/>
+
+* <b>Facelets is a powerful but lightweight page declaration language that is used to build JSF Views using HTML style templates and to build component trees.</b> <br/>
+Facelets features include: <br/>
+
+<ul>
+<li>Use of XHTML for creating web pages.</li>
+<li>Support for Facelets tag libraries in addition to JSF and JSTL tag libraries.</li>
+<li>Support for the Expression Language (EL).</li>
+<li>Templating for components and pages.</li>
+</ul>
+<br/><br/>
+
+</div>
+==================================================================================
+<br/><br/>
+
+
+
+
+<h3>===Expression Language (EL)=== </h3>
+(for more info, read: <i>http://docs.oracle.com/javaee/6/tutorial/doc/gjddd.html</i>)<br/>
+<button type="button" onclick="show('EL')">Show...</button> <br/>
+
+<div id="EL" style="display:none">
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; <b>Expression Language</b> (also referred to as the EL), provides an important mechanism for enabling the presentation layer (web pages) to communicate with the application logic (managed beans). <br/>
+note: <i><b>The EL is used by both JSF technology and JavaServer Pages (JSP) technology.</b></i>
+<br/><br/>
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; <b>The EL provides a way to use simple expressions to perform the following tasks:</b> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; Dynamically read application data stored in JavaBeans components, various data structures, and <b>implicit objects</b> (such as: #{request}, "javax.servlet.http.HttpSession"  and many more.) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; Dynamically write data, such as user input into forms, to JavaBeans components. <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; Invoke arbitrary static and public methods. <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; Dynamically perform arithmetic operations. <br/>
+
+(Note: for more info about implicit objects, read: <i>https://docs.oracle.com/cd/E19316-01/819-3669/bnaij/index.html</i>)<br/><br/>
+
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; <b>Note: Expression Language is evaluated by EL resolver to produce a result. You can use a custom EL resolver to alter the way expression language are resolved.</b><br/>
+(read: https://docs.oracle.com/cd/E19316-01/819-3669/bnaif/index.html) <br/><br/>
+
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; <b>Note: All the tag attributes (except id) can accept Expression Language.</b><br/><br/>
+
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; <b>The EL defines the following literals:</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; Boolean: <code>true</code> and <code>false</code><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; Integer: as in Java <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; Floating-Point: as in Java <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; String: with single and double quotes. <code>"</code> is escaped as <code>\"</code>, <code>'</code> is escaped as <code>\'</code>, and <code>\ </code>is escaped as <code>\\</code><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; Null: <code>null</code> <br/>
+
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; <b>The EL supports the following kinds of expressions:</b> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;<b>Immediate evaluation expressions.</b>Immediate evaluation means that the expression is evaluated and the result returned as soon as the page is first rendered. Those expressions that are evaluated immediately use the <code>${}</code> syntax. Example: <code>${request.getProtocol()}</code>.</b><b>Immediate evaluation expressions are always rvalue expression.</b><br/><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;<b>Deferred evaluation expressions.</b> Deferred evaluation means that the technology using the expression language can use its own machinery to evaluate the expression sometime later during the page’s lifecycle, whenever it is appropriate to do so. Expressions whose evaluation is deferred use the <code>#{}</code> syntax. Example: <code>#{someBean.someMethod()}</code>. <b>Deferred evaluation expressions can be Value (rvalue or lvalue) expressions or Method expressions. </b><br/><br/>
+(Note: <b>Because of its multiphase lifecycle, JavaServer Faces technology uses mostly "deferred evaluation expressions".</b>)<br/><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;<b>Value expression.</b> Value expressions can be further categorized into rvalue and lvalue expressions:<br/><br/>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;<b>Rvalue expression</b>. Rvalue expressions can read data but cannot write it</b>. 
+All expressions that are evaluated immediately use the <code>${}</code> delimiters and are always rvalue expressions.</b>
+Value expressions using the ${} delimiters can be used in: "Any standard or custom tag attribute that can accept an expression" and "Static text". If the static text appears in a tag body, note that an expression <b>will not</b> be evaluated if the body is declared to be <code>tagdependent</code>.
+
+An rvalue expression also refers directly to values that are not objects, such as the result of arithmetic operations and literal values, as shown by these examples:<br/>
+<pre>
+${"literal"}
+${customer.age + 20}
+${true}
+${57}
+</pre>
+<br/><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;<b>Lvalue expression</b>. Lvalue expressions can both read and write data</b>. Expressions whose evaluation can be deferred use the #{} delimiters and can act as both rvalue and lvalue expressions.<br/>
+Both rvalue and lvalue expressions can refer to the following objects and their properties or attributes. <b>Lvalue expressions can be used only in tag attributes that can accept lvalue expressions.</b><br/><br/>
+
+Note: In case of JSF technology, the example tag <code>#{customer.name}</code> expression is evaluated immediately during an initial request for the page. In this case, this expression acts as an rvalue expression. During a postback request, this expression can be used to set the value of the name property with user input. In this case, the expression acts as an lvalue expression. 
+<br/><br/>
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp;<b>Method expression. </b><br/><br/>
+
+
+<br/><br/>
+
+
+
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; <b>Facelets uses EL expressions to reference properties and methods of "managed beans".</b> <br/>
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; <b>Facelets connects to the managed bean through the Expression Language (EL) value expression.</b> <br/><br/>
+</div>
+==================================================================================
+<br/><br/>
+
+
+
+
+<h3>===JSF Component and Attribute===</h3>
+(for more info, read: <i>https://docs.oracle.com/javaee/6/tutorial/doc/bnarf.html</i>)<br/>
+<button type="button" onclick="show('jsf_component')">Show...</button> <br/>
+<div id="jsf_component" style="display:none">
+* JSF technology supports various tag libraries to add components to a web page. To support the JSF tag library mechanism, Facelets uses XML namespace declarations. Table 5-1 lists the tag libraries supported by Facelets. <br/>
+
+* All jsf tag documentation and explanation is on: <br/>
+https://docs.oracle.com/javaee/7/index.html, https://docs.oracle.com/javaee/7/javaserver-faces-2-2/vdldocs-facelets/toc.htm <br/>
+https://docs.oracle.com/javaee/6/, https://docs.oracle.com/javaee/6/javaserverfaces/2.1/docs/vdldocs/facelets/ <br/>
+https://docs.oracle.com/javaee/5/, https://docs.oracle.com/javaee/5/javaserverfaces/1.2/docs/tlddocs/<br/>
+<br/><br/>
+<div>
+<center>
+<table>
+  <tr>
+    <th>Tag Library</th>
+    <th>URI</th>
+    <th>Prefix</th>
+    <th>Example</th>
+    <th>Contents</th>
+    <th>Tutorial</th>
+	<th>Documentation</th>
+  </tr>
+  <tr>
+    <td>JSF Facelets Tag Library</td>
+    <td>http://java.sun.com/jsf/facelets</td>
+    <td><code>ui:</code></td>
+    <td><code>ui:insert</code></td>
+    <td>Tags for templating.</td>
+    <td>http://docs.oracle.com/javaee/6/tutorial/doc/giqxp.html</td>
+	<td>https://docs.oracle.com/javaee/7/javaserver-faces-2-2/vdldocs-facelets/toc.htm</td>
+  </tr>
+  <tr>
+    <td>JSF HTML Tag Library</td>
+    <td>http://java.sun.com/jsf/html</td>
+    <td><code>h:</code></td>
+    <td><code>h:body</code></td>
+    <td>JavaServer Faces component tags for all <code>UIComponent</code> objects.</td>
+    <td>http://docs.oracle.com/javaee/6/tutorial/doc/bnarf.html#gjdgq</td>
+	<td>https://docs.oracle.com/javaee/7/javaserver-faces-2-2/vdldocs-facelets/toc.htm</td>
+  </tr>
+  <tr>
+    <td>JSF Core Tag Library</td>
+    <td>http://java.sun.com/jsf/core</td>
+    <td><code>f:</code></td>
+    <td><code>f:actionListener</code></td>
+    <td>The JavaServer Faces core tag library are used to perform core actions that are not performed by HTML tags.</td>
+    <td>http://docs.oracle.com/javaee/6/tutorial/doc/bnarc.html</td>
+	<td>https://docs.oracle.com/javaee/7/javaserver-faces-2-2/vdldocs-facelets/toc.htm</td>
+  </tr>
+  <tr>
+    <td>JSTL Core Tag Library</td>
+    <td>http://java.sun.com/jsp/jstl/core</td>
+    <td><code>c:</code></td>
+    <td><code>c:forEach</code></td>
+    <td>JSTL 1.2 Core Tags.</td>
+    <td></td>
+	<td>https://docs.oracle.com/javaee/7/javaserver-faces-2-2/vdldocs-facelets/toc.htm</td>
+  </tr>
+  <tr>
+    <td>JSTL Functions Tag Library</td>
+    <td>http://java.sun.com/jsp/jstl/functions</td>
+    <td><code>fn:</code></td>
+    <td><code>fn:toUpperCase</code></td>
+    <td>JSTL 1.2 Functions Tags.</td>
+    <td></td>
+	<td>https://docs.oracle.com/javaee/7/javaserver-faces-2-2/vdldocs-facelets/toc.htm</td>
+  </tr>
+  <tr>
+	<td>Primefaces Tag Library</td>
+	<td>http://primefaces.org/ui</td>
+    <td><code>p:</code></td>
+    <td><code>p:button</code></td>
+    <td>Primefaces Tag.</td>
+    <td>https://www.primefaces.org/showcase/index.xhtml</td>
+	<td></td>
+  </tr>
+</table>
+Table 5-1 Tag Libraries Supported by Facelets
+</center> </div><br/>
+
+* The component <code>&lt;h:outputLabel&gt;</code> will be wrapped in Object "javax.faces.component.html.HtmlOutputLabel". <br/>
+* The component <code>&lt;h:commandButton&gt;</code> will be wrapped in Object "javax.faces.component.html.HtmlCommandButton" <br/>
+* The component <code>&lt;h:inputText&gt;</code> will be wrapped in Object "javax.faces.component.html.HtmlInputText" <br/>
+* The component <code>&lt;h:inputTextarea&gt;</code> will be wrapped in Object "javax.faces.component.html.HtmlInputTextarea" <br/>
+
+* Input components and command components (those that implement the <code>javax.faces.component.ActionSource</code> interface, such as buttons and hyperlinks) can set the <code>immediate</code> attribute to <code>true</code> <b>to force events, validations, and conversions to be processed when request parameter values are applied (during the "Apply Request" phase rather than in a later phase).</b> <br/>
+* The combination of an input component’s <code>immediate</code> value and a command component’s <code>immediate</code> value determines what happens when the command component is activated. <br/>
+Example: <br/><br/>
+
+<b>Note: All the tag attributes (except id) can accept Expression Language.</b><br/><br/>
+
+<h4>The <code>value</code> Attribute</h4>
+(for more info, read: <i>https://docs.oracle.com/javaee/7/tutorial/jsf-custom012.htm</i>)<br/>
+* Specifies the value of the component, like in html.<br/>
+* Can accept all kind of EL (rvalue and lvalue). <br/>
+* Used to binding its component's value to a bean property. <br/><br/>
+
+<h4>Example 1 (<code>value</code> attribute):</h4> <br/>
+<div class="code">
+<b>TestBean.java:</b><br/>
+<pre>
+package com.reinard.bean;
+
+import java.util.ArrayList;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+@ManagedBean(name="testBean")
+@SessionScoped
+public class TestBean {
+	
+	private Integer[] arrInt = {1,2,3,4,5}; 
+	
+	private ArrayList<String> arrList;
+	
+	public TestBean(){
+		super();
+		arrList = new ArrayList<String>();
+		arrList.add("siberian husky");
+		arrList.add("bulldog");
+		arrList.add("german shepherd");
+	}
+	
+	public Integer[] getArrInt() {
+		return arrInt;
+	}
+
+	public void setArrInt(Integer[] arrInt) {
+		this.arrInt = arrInt;
+		System.out.println(arrInt);
+	}
+	
+	public ArrayList<String> getArrList() {
+		return arrList;
+	}
+
+	public void setArrList(ArrayList<String> arrList) {
+		this.arrList = arrList;
+	}
+	
+}
+</pre><br/><br/>
+<b>form.xhtml:</b><br/>
+<pre>
+&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"&gt;
+	&lt;h:head&gt;
+        &lt;title&gt;Facelets Hello World&lt;/title&gt;
+    &lt;/h:head&gt;
+    
+    &lt;h:body&gt;
+    	&lt;!-- print: false --&gt;
+    	&lt;h:outputLabel value="${testBean.arrInt[3] &gt; 10}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+    	
+    	&lt;!-- print: bulldog  --&gt;
+    	&lt;h:outputLabel value="${testBean.arrList[1]}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+    	
+    	&lt;h:form method="post" enctype="application/x-www-form-urlencoded"&gt;
+    		&lt;!-- print: 4, then accept the inputted value, then store it in com.reinard.bean.TestBean.arrInt[3] --&gt;
+    		&lt;h:inputText id="inputText1" value="#{testBean.arrInt[3]}"&gt;&lt;/h:inputText&gt; &lt;br/&gt;
+    		&lt;h:commandButton id="submit" value="Submit" action="response.xhtml"/&gt;  &lt;br/&gt;
+    	&lt;/h:form&gt;
+    &lt;/h:body&gt;
+&lt;/html&gt;
+</pre>
+
+</div>
+
+<br/><br/>
+<h4>The <code>rendered</code> Attribute</h4><br/>
+* The rendered attribute uses a Boolean EL expression.<br/>
+* The rendered attribute is restricted to using rvalue expressions.<br/><br/>
+
+<h4>Example 1 (<code>rendered</code> attribute):</h4>
+<div class="code">
+<b>TestBean.java:</b><br/>
+<pre>
+package com.test.bean;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+@ManagedBean
+@SessionScoped
+public class TestBean {
+	
+	private int a = 1;
+	
+	private boolean no = false;
+	
+	private boolean yes = true;
+	
+
+	public boolean isYes() {
+		return yes;
+	}
+
+	public void setYes(boolean yes) {
+		this.yes = yes;
+	}
+
+	public boolean isNo() {
+		return no;
+	}
+
+	public void setNo(boolean no) {
+		this.no = no;
+	}
+
+	public int getA() {
+		return a;
+	}
+
+	public void setA(int a) {
+		this.a = a;
+	}
+	
+	public TestBean(){
+		super();
+	}
+
+}
+</pre><br/><br/>
+<b>testRenderedAttribute.xhtml:</b><br/>
+<pre>
+&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"&gt;
+	
+	&lt;!-- Below component will not displayed, because #{testBean.no} produce "false"--&gt;
+	&lt;h:commandButton value="test no" rendered="#{testBean.no}"&gt;&lt;/h:commandButton&gt; &lt;br/&gt;
+	
+	&lt;!-- Below component will be displayed, because #{testBean.yes} produce "true"--&gt;
+	&lt;h:commandButton value="test yes" rendered="#{testBean.yes}"&gt;&lt;/h:commandButton&gt; &lt;br/&gt;
+	
+	&lt;!-- Below component will be displayed, because rendered = "true"--&gt;
+	&lt;h:commandButton value="true" rendered="true"&gt;&lt;/h:commandButton&gt; &lt;br/&gt;
+	
+	&lt;!-- Below component will not displayed, because rendered = "false"--&gt;
+	&lt;h:commandButton value="no" rendered="false"&gt;&lt;/h:commandButton&gt; &lt;br/&gt;
+	
+&lt;/html&gt;
+</pre></div>
+
+<h4>&lt;h:commandLink> tag</h4>
+source: https://docs.oracle.com/javaee/7/javaserver-faces-2-2/vdldocs-facelets/toc.htm <br/>
+source:https://docs.oracle.com/javaee/7/api/ (javax.faces.component.html.HtmlCommandLink) <br/><br/>
+
+* Must be inside &lt;h:form> tag. <br/>
+* Render an HTML "a" anchor element that acts like a form submit button when clicked. <br/><br/>
+Example: <br/>
+
+<div class="code">
+<b>learn-immediate.xhtml</b><br/>
+<pre>
+&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html">
+&lt;h:head>&lt;/h:head>
+&lt;h:body>
+&lt;h:form>
+	&lt;!-- Will execute method ImmediateBean.clickMe() after this link is clicked -->
+	&lt;h:commandLink id="click" action="#{immediateBean.clickMe}" immediate="true">
+    	&lt;h:outputText value="click me"/>
+	&lt;/h:commandLink>
+&lt;/h:form>
+&lt;/h:body>
+&lt;/html>
+</pre> <br/>
+<b>ImmediateBean.java:</b><br/>
+<pre>
+package com.reinard.bean;
+
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean
+public class ImmediateBean {
+	
+	public ImmediateBean() {
+		super();
+	}
+	
+	public void clickMe() {
+		System.out.println("clickMe() called");
+	}
+	
+}
+</pre></div>
+
+
+</div>
+==================================================================================
+<br/><br/>
+
+
+<h3>===Primefaces===</h3>
+(for more info, read: <i>https://www.primefaces.org/documentation/</i>)<br/>
+(for more info, read: <i>https://www.primefaces.org/showcase/</i>)<br/>
+<button type="button" onclick="show('primefaces_component')">Show...</button> <br/>
+<div id="primefaces_component" style="display:none">
+
+<b>* Primefaces requires a <code>&lt;h:head&gt;</code> tag to work. </b><br/><br/>
+
+<b>* To Execute javascript code from ManagedBean: </b><br/>
+<div class="code">
+<b>TestBean.java:</b><br/>
+<pre>
+package com.reinard.bean;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import org.primefaces.context.RequestContext;
+
+@ManagedBean
+@SessionScoped
+public class TestBean{
+	
+	public void execute(){
+		//Execute javascript: alert("I am an alert box!");
+		RequestContext.getCurrentInstance().execute("alert(\"I am an alert box!\")");
+	}
+}
+</pre></div><br/><br/>
+
+<b>* Basic ajax calling in primefaces: </b><br/>
+
+<div class="code">
+<b>test_primefaces_ajax.xhtml:</b><br/>
+<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+&lt;!-- Primefaces require &lt;h:head> tag, otherwise, it will not work. -->
+&lt;h:head>&lt;/h:head>
+
+&lt;h:body>
+	
+	&lt;!-- This component will be updated with value from property "TestPrimefacesAjaxBean.text" after user click "Submit" button-->
+	&lt;h:outputText id="display1" value="#{testPrimefacesAjaxBean.text}" /> &lt;br/>
+	
+	&lt;!-- Ajax calling needs to be in &lt;h:form> tag-->
+	&lt;h:form>
+		&lt;!-- This component will be updated with value from property "TestPrimefacesAjaxBean.text" after user click "Submit" button-->
+		&lt;h:outputText id="display2" value="#{testPrimefacesAjaxBean.text}" /> &lt;br/>
+		
+		&lt;!-- Declare the input text box to accept the inputted value and store the value to property "TestPrimefacesAjaxBean.text"-->
+		&lt;h:inputText id="inputText1" value="#{testPrimefacesAjaxBean.text}">&lt;/h:inputText> &lt;br/>
+		
+		&lt;!-- Will execute method TestPrimefacesAjaxBean.method1() after this button is clicked, -->
+		&lt;!-- then, update the value of component that has id=display1 and id=display2
+		&lt;p:commandButton id="submit" value="Submit" update=":display1 display2" actionListener="#{testPrimefacesAjaxBean.method1()}" /> &lt;br/>
+	&lt;/h:form>
+	
+&lt;/h:body>
+
+&lt;/html>
+</pre><br/><br/>
+<b>TestPrimefacesAjaxBean.java: </b><br/>
+<pre>
+package com.reinard.bean;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+
+@ManagedBean(name="testPrimefacesAjaxBean")
+@SessionScoped
+public class TestPrimefacesAjaxBean {
+
+	private String text = "input here";
+	
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+	public void method1(){
+		System.out.println("method1 called.");
+	}
+	
+	public TestPrimefacesAjaxBean(){
+		super();
+	}
+
+}
+</pre></div>
+
+<b>* <code>onstart</code> and <code>oncomplete</code> attribute, will not worked, unless the "basic ajax calling" works. </b><br/><br/>
+
+<b>* <code>&lt;p:dataTable&gt;</code> component: </b><br/>
+- Will display a data in tabular format. <br/>
+- If the data is a List, then it will looping to extract the object in the List, and assign it into the var attribute. <br/>
+Example 1 (basic): <br/>
+<div class="code">
+<b>data-table-basic.xhtml:</b><br/>
+<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+&lt;!-- Primefaces require &lt;h:head> tag, otherwise, it will not work. -->
+&lt;h:head>&lt;/h:head>
+
+&lt;h:body>
+
+	&lt;!-- This dataTable contains "private List&lt;Car> cars" object, that in DataTableBasicBean.java-->
+	&lt;!-- This dataTable will looping similar in java code: --> 
+	&lt;!-- for(Car mobil : cars); -->
+	&lt;!-- the "mobil" object is accessible from all component declared inside this dataTable tag -->
+	&lt;p:dataTable var="mobil" value="#{dataTableBasicBean.cars}">
+		
+		&lt;p:column headerText="Classification">
+    		&lt;!-- display classification property of current looping Car object-->
+        	&lt;h:outputText value="#{mobil.classification}" />
+   		&lt;/p:column>
+ 
+    	&lt;p:column headerText="Brand">
+    		&lt;!-- display brand property of current looping Car object-->
+			&lt;h:outputText value="#{mobil.brand}" />
+    	&lt;/p:column>
+ 
+    	&lt;p:column headerText="Color">
+    		&lt;!-- display color property of current looping Car object-->
+        	&lt;h:outputText value="#{mobil.color}" />
+    	&lt;/p:column>
+		
+	&lt;/p:dataTable>
+	
+&lt;/h:body>
+
+&lt;/html>
+</pre><br/><br/>
+
+<b>Car.java:</b><br/>
+<pre>
+package com.reinard.model;
+
+public class Car {
+	
+	private String brand;
+	private String classification;
+	private String color;
+	
+	public Car(String brand, String classification, String color) {
+		super();
+		setBrand(brand);
+		setClassification(classification);
+		setColor(color);
+	}
+	
+	public String getBrand() {
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public String getClassification() {
+		return classification;
+	}
+	public void setClassification(String classification) {
+		this.classification = classification;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
+	@Override
+	public String toString(){
+		return "car: "+getBrand()+", "+getClassification()+", "+getColor();
+	}
+	
+}
+
+</pre><br/><br/>
+
+<b>DataTableBasicBean.java:</b><br/>
+<pre>
+package com.reinard.bean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+import com.reinard.model.Car;
+
+@ManagedBean
+@SessionScoped
+public class DataTableBasicBean {
+	
+	private List&lt;Car> cars;
+	
+	public DataTableBasicBean(){
+		super();
+		cars = new ArrayList&lt;Car>();
+		cars.add(new Car("Chevrolet", "Sport Car", "Yellow"));
+		cars.add(new Car("Daihatsu", "City Car", "Silver"));
+		cars.add(new Car("Honda", "Sedan", "Black"));
+	}
+
+	public List&lt;Car> getCars() {
+		return cars;
+	}
+
+	public void setCars(List&lt;Car> cars) {
+		this.cars = cars;
+	}
+
+}
+</pre></div><br/>
+
+Example 3 (with button selection and ajax): <br/>
+
+<div class="code">
+<b>data-table-basic-selection.xhtml:</b><br/>
+<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+&lt;!-- Primefaces require &lt;h:head> tag, otherwise, it will not work. -->
+&lt;h:head>&lt;/h:head>
+
+&lt;h:body>
+
+&lt;h:form>
+&lt;!-- This dataTable contains List&lt;Car> object, that in DataTableBasicSelectionBean.java-->
+&lt;!-- This dataTable will looping similar in java code: --> 
+&lt;!-- for(Car mobil: List&lt;Car>); -->
+&lt;p:dataTable var="mobil" value="#{dataTableBasicSelectionBean.cars}">
+    
+    &lt;p:column headerText="Classification">
+    	&lt;!-- display classification property of current looping Car object-->
+        &lt;h:outputText value="#{mobil.classification}" />
+    &lt;/p:column>
+ 
+    &lt;p:column headerText="Brand">
+    	&lt;!-- display classification property of current looping Car object-->
+		&lt;h:outputText value="#{mobil.brand}" />
+    &lt;/p:column>
+ 
+    &lt;p:column headerText="Color">
+        &lt;h:outputText value="#{mobil.color}" />
+    &lt;/p:column>
+    
+    &lt;p:column headerText="Button" >
+    	&lt;!-- update the &lt;p:dialog id="carDialogID"> and show it, after user click this button -->
+    	&lt;p:commandButton value="Select" update=":carDialogID" oncomplete="PF('carDialog').show();">
+    		&lt;!-- Will set this current looping Car object to property DataTableBasicSelectionBean.selectedCar, after this button is clicked-->
+    		&lt;f:setPropertyActionListener value="#{mobil}" target="#{dataTableBasicSelectionBean.selectedCar}" />
+    	&lt;/p:commandButton>
+    &lt;/p:column>
+&lt;/p:dataTable>
+&lt;/h:form>
+
+&lt;p:dialog id="carDialogID" header="Car Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+	
+	
+	&lt;h:outputText value="Classification: " />
+	&lt;!-- Display DataTableBasicSelectionBean.getSelectedCar().getClassification(); -->
+    &lt;h:outputText rendered="#{not empty dataTableBasicSelectionBean.selectedCar}" value="#{dataTableBasicSelectionBean.selectedCar.classification}" /> &lt;br/>
+    
+    &lt;h:outputText value="Brand: " />
+    &lt;!-- Display DataTableBasicSelectionBean.getSelectedCar().getBrand(); -->
+    &lt;h:outputText rendered="#{not empty dataTableBasicSelectionBean.selectedCar}" value="#{dataTableBasicSelectionBean.selectedCar.brand}" /> &lt;br/>
+    
+    &lt;h:outputText value="Color: " />
+    &lt;!-- Display DataTableBasicSelectionBean.getSelectedCar().getColor(); -->
+    &lt;h:outputText rendered="#{not empty dataTableBasicSelectionBean.selectedCar}" value="#{dataTableBasicSelectionBean.selectedCar.color}" /> &lt;br/>
+	
+    
+&lt;/p:dialog>
+
+
+&lt;/h:body>
+
+&lt;/html>
+</pre><br/><br/>
+
+<b>Car.java:</b><br/>
+<pre>
+package com.reinard.model;
+
+public class Car {
+	
+	private String brand;
+	private String classification;
+	private String color;
+	
+	public Car(String brand, String classification, String color) {
+		super();
+		setBrand(brand);
+		setClassification(classification);
+		setColor(color);
+	}
+	
+	public String getBrand() {
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public String getClassification() {
+		return classification;
+	}
+	public void setClassification(String classification) {
+		this.classification = classification;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
+	@Override
+	public String toString(){
+		return "car: "+getBrand()+", "+getClassification()+", "+getColor();
+	}
+	
+}
+
+</pre><br/><br/>
+
+<b>DataTableBasicSelectionBean.java:</b><br/>
+<pre>
+package com.reinard.bean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+import com.reinard.model.Car;
+
+@ManagedBean
+@SessionScoped
+public class DataTableBasicSelectionBean{
+	
+	private List&lt;Car> cars;
+	
+	private Car selectedCar;
+	
+	public DataTableBasicSelectionBean(){
+		super();
+		cars = new ArrayList&lt;Car>();
+		cars.add(new Car("Chevrolet", "Sport Car", "Yellow"));
+		cars.add(new Car("Daihatsu", "City Car", "Silver"));
+		cars.add(new Car("Honda", "Sedan", "Black"));
+	}
+
+	public List&lt;Car> getCars() {
+		return cars;
+	}
+
+	public void setCars(List&lt;Car> cars) {
+		this.cars = cars;
+	}
+
+	public Car getSelectedCar() {
+		System.out.println("getSelectedCar() called");
+		return selectedCar;
+	}
+	
+	public void setSelectedCar(Car car) {
+		System.out.println("setSelectedCar() called");
+		System.out.println("Attempt to set Car: "+car.getBrand()+","+car.getClassification()+","+car.getColor());
+		this.selectedCar=car;
+	}
+	
+}
+</pre></div><br/>
+
+Example 2 (with button selection and ajax): <br/>
+
+<div class="code">
+<b>data-table-basic-selection-method.xhtml</b>
+<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+&lt;!-- Primefaces require &lt;h:head> tag, otherwise, it will not work. -->
+&lt;h:head>&lt;/h:head>
+
+&lt;h:body>
+
+&lt;h:form>
+&lt;!-- This dataTable contains List&lt;Car> object, that in DataTableBasicSelectionMethod.java-->
+&lt;!-- This dataTable will looping similar in java code: --> 
+&lt;!-- for(Car mobil: List&lt;Car>); -->
+&lt;p:dataTable var="mobil" value="#{dataTableBasicSelectionMethod.cars}">
+    
+    &lt;p:column headerText="Classification">
+    	&lt;!-- display classification property of current looping Car object-->
+        &lt;h:outputText value="#{mobil.classification}" />
+    &lt;/p:column>
+ 
+    &lt;p:column headerText="Brand">
+    	&lt;!-- display classification property of current looping Car object-->
+		&lt;h:outputText value="#{mobil.brand}" />
+    &lt;/p:column>
+ 
+    &lt;p:column headerText="Color">
+        &lt;h:outputText value="#{mobil.color}" />
+    &lt;/p:column>
+    
+    &lt;p:column headerText="Button">
+    	&lt;!-- After click this button, system will call method "DataTableBasicSelectionMethod.execute()", with argument: this selected row -->
+    	&lt;!-- update the &lt;p:dialog id="carDialogID"> and show it, after user click this button -->
+    	&lt;p:commandButton value="Select" update=":carDialogID" oncomplete="PF('carDialog').show();" actionListener="#{dataTableBasicSelectionMethod.execute(mobil)}">	
+    	&lt;/p:commandButton>
+    &lt;/p:column>
+&lt;/p:dataTable>
+&lt;/h:form>
+
+&lt;p:dialog id="carDialogID" header="Car Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+	
+	&lt;h:outputText value="Classification: " />
+	&lt;!-- Display DataTableBasicSelectionMethod.getSelectedCar().getClassification(); -->
+    &lt;h:outputText rendered="#{not empty dataTableBasicSelectionMethod.selectedCar}" value="#{dataTableBasicSelectionMethod.selectedCar.classification}" /> &lt;br/>
+    
+    &lt;h:outputText value="Brand: " />
+    &lt;!-- Display DataTableBasicSelectionMethod.getSelectedCar().getBrand(); -->
+    &lt;h:outputText rendered="#{not empty dataTableBasicSelectionMethod.selectedCar}" value="#{dataTableBasicSelectionMethod.selectedCar.brand}" /> &lt;br/>
+    
+    &lt;h:outputText value="Color: " />
+    &lt;!-- Display DataTableBasicSelectionMethod.getSelectedCar().getColor(); -->
+    &lt;h:outputText rendered="#{not empty dataTableBasicSelectionMethod.selectedCar}" value="#{dataTableBasicSelectionMethod.selectedCar.color}" /> &lt;br/>
+	
+&lt;/p:dialog>
+
+&lt;/h:body>
+
+&lt;/html>
+</pre><br/>
+
+<b>DataTableBasicSelectionMethod.java</b>
+<pre>
+package com.reinard.bean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+
+import com.reinard.model.Car;
+
+@ManagedBean
+public class DataTableBasicSelectionMethod {
+	
+	private List&lt;Car> cars;
+	
+	private Car selectedCar;
+	
+	public DataTableBasicSelectionMethod(){
+		super();
+		cars = new ArrayList&lt;Car>();
+		cars.add(new Car("1","Chevrolet", "Sport Car", "Yellow"));
+		cars.add(new Car("2", "Daihatsu", "City Car", "Silver"));
+		cars.add(new Car("3", "Honda", "Sedan", "Black"));
+	}
+	
+	public void execute(Car selectedCar){
+		this.selectedCar = selectedCar;
+	}
+
+	public List&lt;Car> getCars() {
+		return cars;
+	}
+
+	public void setCars(List&lt;Car> cars) {
+		this.cars = cars;
+	}
+
+	public Car getSelectedCar() {
+		return selectedCar;
+	}
+	
+	public void setSelectedCar(Car car) {
+		this.selectedCar=car;
+	}
+
+}
+
+</pre><br/>
+
+</div>
+
+<br/><br/>
+<b>* <code>&lt;p:dataTable&gt;</code> component with "Lazy" Loading: </b><br/>
+On displaying <code>&lt;p:dataTable&gt;</code> tag, Primefaces provide a mechanism to display a data (load a data), every time user: <br/>
+- View the "dataTable" for the first time. <br/>
+- Click "sorting sign" in column header. <br/>
+- Perform "filtering data" by inputting some text in the textbox (on column header) to get all the data that match the text. <br/>
+- Click "next page". <br/>
+- Perform "live scrolling". <br/><br/>
+
+This data is embedded in a java class that extends the abstract class: <code>org.primefaces.model.LazyDataModel<T></code> and override the "load" method. <br/>
+The system will call the "load" method to display a data everytime user do the action that explained previously. <br/><br/>
+
+Example: <br/>
+
+<div class="code">
+<b>data-table-lazy.xhtml:</b><br/>
+<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+&lt;!-- Primefaces require &lt;h:head> tag, otherwise, it will not work. -->
+&lt;h:head>&lt;/h:head>
+
+&lt;h:body>
+	
+	&lt;!-- The "rows" attribute indicate the maximum rows of data that could be displayed per page. -->
+	&lt;p:dataTable var="car" value="#{dataTableLazyBean.lazyDataModel}" paginator="true" rows="5" lazy="true">
+		&lt;p:column headerText="Id">
+			&lt;h:outputText value="#{car.id}" >&lt;/h:outputText>
+		&lt;/p:column>
+		&lt;p:column headerText="Brand">
+			&lt;h:outputText value="#{car.brand}" >&lt;/h:outputText>
+		&lt;/p:column>
+		&lt;p:column headerText="Classification">
+			&lt;h:outputText value="#{car.classification}">&lt;/h:outputText>
+		&lt;/p:column>
+		&lt;p:column headerText="Color">
+			&lt;h:outputText value="#{car.color}">&lt;/h:outputText>
+		&lt;/p:column>
+	&lt;/p:dataTable>
+
+&lt;/h:body>
+
+&lt;/html>
+</pre> <br/>
+<b>DataTableLazyBean.java:</b><br/>
+<pre>
+package com.reinard.bean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+import org.primefaces.model.LazyDataModel;
+
+import com.reinard.model.Car;
+import com.reinard.model.lazy.LazyDataModelCar;
+
+@ManagedBean
+@SessionScoped
+public class DataTableLazyBean {
+	
+	public LazyDataModel&lt;Car> lazyDataModel;
+	
+	@PostConstruct
+	public void init(){
+		
+		//prepare the data:
+		List&lt;Car> listCar = new ArrayList&lt;Car>();
+		listCar.add(new Car("1","Daihatsu", "City Car", "Silver"));
+		listCar.add(new Car("2","Honda", "City Car", "Black"));
+		listCar.add(new Car("3","Chevrolet", "City Car", "Black"));
+		listCar.add(new Car("4","Fiat", "City Car", "Black"));
+		listCar.add(new Car("5","Toyota", "City Car", "Black"));
+		listCar.add(new Car("6","Mitsubishi", "City Car", "Black"));
+		listCar.add(new Car("7","Ford", "City Car", "Black"));
+		listCar.add(new Car("8","Jaguar", "Sport Car", "Black"));
+		listCar.add(new Car("9","Lamborghini", "Sport Car", "Black"));
+		listCar.add(new Car("10","Nissan", "City Car", "Black"));
+		listCar.add(new Car("11","Suzuki", "Minibus", "Black"));
+		listCar.add(new Car("12","Mazda", "City Car", "Black"));
+		listCar.add(new Car("13","Mercedes", "City Car", "Black"));
+		listCar.add(new Car("14","BMW", "City Car", "Black"));
+		listCar.add(new Car("15","Wuling", "City Car", "Black"));
+		listCar.add(new Car("16","Mini", "Sport Car", "Black"));
+		listCar.add(new Car("17","Tesla", "Electric Car", "Black"));
+		listCar.add(new Car("18","Jeep", "Adventure Car", "Black"));
+		listCar.add(new Car("19","Cadillac", "Sport Car", "Black"));
+		listCar.add(new Car("20","Subaru", "City Car", "Black"));
+		listCar.add(new Car("21","Audi", "City Car", "Black"));
+		listCar.add(new Car("22","Porsche", "City Car", "Black"));
+		listCar.add(new Car("23","Volkswagen", "City Car", "Black"));
+		listCar.add(new Car("24","Opel", "City Car", "Black"));
+		
+		setLazyDataModel(new LazyDataModelCar(listCar));
+	}
+
+	public LazyDataModel&lt;Car> getLazyDataModel() {
+		return lazyDataModel;
+	}
+
+	public void setLazyDataModel(LazyDataModel&lt;Car> lazyDataModel) {
+		this.lazyDataModel = lazyDataModel;
+	}
+	
+}
+</pre><br/>
+
+<b>LazyDataModelCar.java:</b>
+<pre>
+package com.reinard.model.lazy;
+
+import java.util.List;
+import java.util.Map;
+
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
+
+import com.reinard.model.Car;
+
+public class LazyDataModelCar extends LazyDataModel&lt;Car>{
+	
+	public List&lt;Car> listOfCar;
+	
+	public LazyDataModelCar(List&lt;Car> listOfCar){
+		this.listOfCar = listOfCar;
+	}
+	
+	/**
+	 * This method is called by the system, everytime user: &lt;br/>
+	 * &lt;ul>
+	 * &lt;li>View the "dataTable" for the first time.&lt;/li>
+	 * &lt;li>Click "sorting sign" on column header.&lt;/li>
+	 * &lt;li>Perform "filtering data" by inputting some text in the textbox (on column header) to display all the data that match the inputted text.&lt;/li>
+	 * &lt;li>Click "next page" in pagination.&lt;/li>
+	 * &lt;li>Perform "live scrolling".&lt;/li>
+	 * &lt;/ul>
+	 * 
+	 * @param currentIndex - If the "dataTable" is initially loaded, the system will provide 0, everytime user click "next arrow" then it would get incremented by "rows" attribute;
+	 * @param pageSize - Defined in "rows" attribute of &lt;dataTable> tag, indicates the maximum rows of data this "dataTable" could display per page.
+	 * @param sortField - If the "dataTable" is initially loaded, the system will provide null. Filled when user click the specific column/field to sort. Only if the "sortBy" attribute is filled.
+	 * @param sortOrder - The system will by default provide "ASCENDING".
+	 * @param filters - Filled when user input text to filter the data, by inputting some text in the textbox to get all the data that match the text. Example: The HashMap will filled with key: "brand" and value: "chevrolet", if user input text "chevrolet" in the column that filterBy=#{car.brand}.
+	 * @return The list of data to be displayed in "dataTable".
+	 */
+	@Override
+    public List&lt;Car> load(int currentIndex, int pageSize, String sortField, SortOrder sortOrder, Map&lt;String,Object> filters) {
+		
+		if(listOfCar == null){
+			return null;
+		}
+		
+		//if the data size is higher than maximum integer number:
+		if(listOfCar.size() > Integer.MAX_VALUE){
+			return null;
+		}
+		
+		//must set the "rowCount", otherwise the data would not be displayed.
+		//the rowCount is an int number that indicate the maximum page that could be displayed.
+		//Example: if the "pageSize" is 5, and the "this.rowCount" is 10, then the pagination only has 2 page, each page only display 5 rows of data.
+		this.setRowCount(listOfCar.size());
+		
+		//if the data size is higher than pageSize:
+		if(listOfCar.size() > pageSize){
+			
+			int startIndex = -1;
+			
+			if(currentIndex==0){
+				startIndex = 0;
+			}else{
+				startIndex = currentIndex;
+			}
+			
+			//Check whether is it safe to get the element in the list range:
+			if((startIndex+pageSize) &lt;= (listOfCar.size()-1)){
+				//eligible to get the element:
+				return listOfCar.subList(startIndex, currentIndex+pageSize+1);
+			}
+			
+		}
+		
+		//if the data size is lower or equals than pageSize:
+		//display current element to last element:
+		return listOfCar.subList(currentIndex, listOfCar.size());
+		
+	}
+	
+}
+
+</pre><br/>
+
+<b>Car.java:</b>
+<pre>
+package com.reinard.model;
+
+public class Car {
+	
+	private String id;
+	private String brand;
+	private String classification;
+	private String color;
+	
+	public Car(String id, String brand, String classification, String color) {
+		super();
+		setId(id);
+		setBrand(brand);
+		setClassification(classification);
+		setColor(color);
+	}
+	
+	public String getBrand() {
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public String getClassification() {
+		return classification;
+	}
+	public void setClassification(String classification) {
+		this.classification = classification;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString(){
+		return "car: "+getId()+", "+getBrand()+", "+getClassification()+", "+getColor();
+	}
+	
+}
+</pre></div><br/>
+
+</div>
+===================================================================================
+<br/><br/>
+
+
+
+
+<h3>===JSF Validator===</h3>
+for more info read: <br/>
+<i>http://docs.oracle.com/javaee/6/tutorial/doc/bnatc.html</i><br/>
+<i>http://docs.oracle.com/javaee/6/tutorial/doc/bnarc.html</i><br/>
+<button type="button" onclick="show('jsf_validator')">Show...</button> <br/>
+<div id="jsf_validator" style="display:none">
+
+Example 1 (test_validator.xhtml)(Using Standard Validator): <br/>
+<pre>
+&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+
+	&lt;h:head>
+        &lt;title>Test Validation&lt;/title>
+    &lt;/h:head>
+    
+    &lt;h:body>
+    	
+    	&lt;!-- Using Standard JSF Validator -->
+    	&lt;h:form method="post" enctype="application/x-www-form-urlencoded">
+    		
+    		Input Country Code: 
+    		&lt;!-- The validation will happen, after user click "Submit" button-->
+    		&lt;!-- required="true", indicate that user must input something into this "inputText", otherwise, an unexpected error will happen, when this form is submitted. -->
+    		&lt;!-- If user input whitespace (ie: space character), and click "Submit" button, it does not produce validation error.-->
+    		&lt;h:inputText id="inputText1" value="" required="true">
+    			
+    			&lt;!-- Validate that the user input must be minimum 2 characters and maximum 3 characters, otherwise validation error happen -->
+    			&lt;f:validateLength minimum="2" maximum="3">&lt;/f:validateLength>
+    		
+    		&lt;/h:inputText> &lt;br/>
+    		
+    		&lt;!-- When user click this button, system will redirects the client to "response.xhtml" page, the "response.xhtml" should at the same directory as this page (test_validator.xhtml) -->
+			&lt;h:commandButton id="submit" value="Submit" action="response.xhtml"/>
+    	&lt;/h:form>
+    	
+    	&lt;!-- Display error message here, if there are validation error in "inputText1" element -->
+    	&lt;h:message showDetail="true" for="inputText1">&lt;/h:message>
+    	
+    &lt;/h:body>
+
+</html>
+</pre>
+
+</div>
+==================================================================================
+<br/><br/><br/>
+
+
+
+
+
+<h3>Implicit Object</h3>
+for more info read: <i>https://www.roseindia.net/help/java/o/jsp-implicit-objects.shtml</i><br/>
+<i>https://docs.oracle.com/cd/E19316-01/819-3669/bnaij/index.html</i><br/>
+<i>https://docs.oracle.com/cd/E19316-01/819-3669/bnaif/index.html</i><br/>
+<br/>
+<button type="button" onclick="show('implicit_object')">Show...</button> <br/>
+<div id="implicit_object" style="display:none">
+* Implicit Objects are the objects that are created by the container (server) automatically, that are available to all the JSF and JSP pages.
+* Because the Expression Language is used by both JSF technology and JavaServer Pages (JSP) technology, both of them can access Implicit Object. <br/>
+* JSP 2.1 provides two EL resolvers to handle expressions that reference these objects: <br/>
+ <code>javax.servlet.jsp.el.ImplicitObjectELResolver</code> and <code>javax.servlet.jsp.el.ScopedAttributeELResolver</code> <br/>
+* This is the result of "JSF Implicit Object Instance type" when accessing using Tomcat server: <br/>
+file: hello.xhtml <br/><br/>
+<pre>
+&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"&gt;
+    &lt;h:head&gt;
+        &lt;title&gt;Facelets Hello World&lt;/title&gt;
+    &lt;/h:head&gt;
+    &lt;h:body&gt;
+        
+        See All JSF Implicit Object Instance: &lt;br/&gt;&lt;br/&gt;
+        &lt;b&gt;#{ "#{pageContext.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{pageContext.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+        
+		&lt;b&gt;#{ "#{faceContext.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{faceContext.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+		
+        &lt;b&gt;#{ "#{session.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{session.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+        
+        &lt;b&gt;#{ "#{request.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{request.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+        
+        &lt;b&gt;#{ "#{response.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{response.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+        
+        &lt;b&gt;#{ "#{param.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{param.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+        
+        &lt;b&gt;#{ "#{paramValues.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{paramValues.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+        
+        &lt;b&gt;#{ "#{header.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{header.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+        
+        &lt;b&gt;#{ "#{headerValues.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{headerValues.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+         
+        &lt;b&gt;#{ "#{initParam.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{initParam.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+          
+        &lt;b&gt;#{ "#{pageScope.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{pageScope.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+        
+        &lt;b&gt;#{ "#{requestScope.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{requestScope.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+        
+        &lt;b&gt;#{ "#{sessionScope.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{sessionScope.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+        
+        &lt;b&gt;#{ "#{applicationScope.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{applicationScope.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+		
+		
+        &lt;b&gt;#{ "#{cookie.getClass().getCanonicalName()}" }&lt;/b&gt;: &lt;h:outputLabel value="#{cookie.getClass().getCanonicalName()}"&gt;&lt;/h:outputLabel&gt; &lt;br/&gt;
+        
+		
+		
+    &lt;/h:body&gt;
+&lt;/html&gt; </pre>
+
+result: <br/><br/>
+
+ See All JSF Implicit Object Instance: <br /><br />
+<b>#{pageContext.getClass().getCanonicalName()}</b>: <label>
+</label> <br />
+
+<b>#{faceContext.getClass().getCanonicalName()}</b>: <label>
+</label> <br />
+        
+        <b>#{session.getClass().getCanonicalName()}</b>: <label>
+org.apache.catalina.session.StandardSessionFacade</label> <br />
+        
+        <b>#{request.getClass().getCanonicalName()}</b>: <label>
+org.apache.catalina.connector.RequestFacade</label> <br />
+        
+        <b>#{response.getClass().getCanonicalName()}</b>: <label>
+</label> <br />
+        
+        <b>#{param.getClass().getCanonicalName()}</b>: <label>
+java.util.Collections.UnmodifiableMap</label> <br />
+        
+        <b>#{paramValues.getClass().getCanonicalName()}</b>: <label>
+java.util.Collections.UnmodifiableMap</label> <br />
+        
+        <b>#{header.getClass().getCanonicalName()}</b>: <label>
+java.util.Collections.UnmodifiableMap</label> <br />
+        
+        <b>#{headerValues.getClass().getCanonicalName()}</b>: <label>
+java.util.Collections.UnmodifiableMap</label> <br />
+         
+        <b>#{initParam.getClass().getCanonicalName()}</b>: <label>
+java.util.Collections.UnmodifiableMap</label> <br />
+          
+        <b>#{pageScope.getClass().getCanonicalName()}</b>: <label>
+</label> <br />
+        
+        <b>#{requestScope.getClass().getCanonicalName()}</b>: <label>
+com.sun.faces.context.RequestMap</label> <br />
+        
+        <b>#{sessionScope.getClass().getCanonicalName()}</b>: <label>
+com.sun.faces.context.SessionMap</label> <br/>
+        
+        <b>#{applicationScope.getClass().getCanonicalName()}</b>: <label>
+com.sun.faces.context.ApplicationMap</label> <br/>
+        
+        <b>#{cookie.getClass().getCanonicalName()}</b>: <label>
+java.util.Collections.UnmodifiableMap</label> <br /></body>
+
+</div>
+==================================================================================
+<br/><br/><br/>
+
+
+
+
+<h3>===Managed Bean===</h3>
+<button type="button" onclick="show('managed_bean')">Show...</button> <br/>
+
+<div id="managed_bean" style="display:none">
+* <b>A managed bean is a lightweight container-managed object. Components in a page could be associated with "managed beans" that provide application logic.</b> <br/>
+
+* <b>ManagedBeans are Java classes that are declared with "@ManagedBean" annotation or listed in "faces-config.xml".</b> <br/><br/>
+
+<b>Example 1 of ManagedBean and Facelets:</b> <br/>
+The example managed bean, Hello.java, contains the following code: <br/>
+<pre>
+package hello;
+
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean
+public class Hello {
+
+    final String helloWord = "Hello World!";
+
+    public String gethelloWord() {
+        return helloWord;
+    }
+}
+</pre>
+
+The example web page, "beanhello.xhtml", is a simple XHTML page. It has the following content: <br/>
+<pre>
+&lt;html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    &lt;h:head>
+        &lt;title>Facelets Hello World&lt;/title>
+    &lt;/h:head>
+    &lt;h:body>
+	 <b>&lt;!-- will get the returned value of method Hello.gethelloWord() then display it: --></b>
+	 &lt;h:outputLabel value="#{hello.helloWord}"&gt;&lt;/h:outputLabel&gt;
+    &lt;/h:body>
+&lt;/html>
+</pre>
+Explanation: The web page connects to the managed bean through the Expression Language (EL) value expression <code>#{hello.world}</code>, which retrieves the value of the <code>final String world</code> property from the managed bean <code>Hello.java</code>. <br/>
+<b>Note the use of hello to reference the managed bean Hello. If no name is specified in the <code>@ManagedBean</code> annotation, the managed bean is always accessed with the first letter of the class name in lowercase.</b> 
+<br/><br/>
+
+<b>Example 2 of ManagedBean and Facelets:</b><br/>
+The example managed bean, Hello.java, contains the following code: <br/>
+<pre>
+package hello;
+
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean
+public class Hello {
+
+    public String getHelloWord() {
+        return "tes";
+    }
+}
+</pre>
+
+The example web page, "beanhello.xhtml", is a simple XHTML page. It has the following content: <br/>
+<pre>
+&lt;html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    &lt;h:head>
+        &lt;title>Facelets Hello World&lt;/title>
+    &lt;/h:head>
+    &lt;h:body>
+	 <b>&lt;!-- will get the returned value of method Hello.getHelloWord() then display it: --></b>
+	  &lt;h:outputLabel value="#{hello.helloWord}"&gt;&lt;/h:outputLabel&gt;
+	 
+    &lt;/h:body>
+&lt;/html>
+</pre>
+<br/>
+
+<b>Example 3 of ManagedBean and Facelets:</b><br/>
+<pre>
+package hello;
+
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean(name = "tes")
+public class Hello {
+
+    public String gethelloword() {
+        return "not hello world";
+    }
+}
+</pre>
+<pre>
+&lt;html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    &lt;h:head>
+        &lt;title>Facelets Hello World&lt;/title>
+    &lt;/h:head>
+    &lt;h:body>
+	 <b>&lt;!-- will get the returned value of method Hello.gethelloword() then display it: --></b>
+		&lt;h:outputLabel value="#{tes.helloword}"&gt;&lt;/h:outputLabel&gt;
+    &lt;/h:body>
+&lt;/html>
+</pre><br/>
+
+<b>Example 4 of ManagedBean and Facelets:</b><br/>
+<pre>
+package hello;
+
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean(name = "tes")
+public class Hello {
+
+    public String getHelloWord() {
+        return "not hello world";
+    }
+}
+</pre>
+<pre>
+&lt;html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    &lt;h:head>
+        &lt;title>Facelets Hello World&lt;/title>
+    &lt;/h:head>
+    &lt;h:body>
+	 <b>&lt;!-- will produce error, because no method with name "gethelloword": --></b>
+	 &lt;h:outputLabel value="#{tes.helloword}"&gt;&lt;/h:outputLabel&gt;
+    &lt;/h:body>
+&lt;/html>
+</pre><br/><br/>
+
+
+<b>Example 5 of ManagedBean and Facelets (Submit simple HTML Form, using page name in <code><b>action=""</b></code> attribute):</b> <br/>
+<b>Structure folder of this example:</b>
+<center><img src="submit_form_web_folder.jpg" width="853" height="480"><br/>Structure Folder<br/></center> <br/><br/>
+
+<b>test_form_request.xhtml: </b>
+<pre>
+&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"&gt;
+	&lt;h:head&gt;
+        &lt;title&gt;Facelets Simple Form&lt;/title&gt;
+    &lt;/h:head&gt;
+	&lt;h:form method="post" enctype="application/x-www-form-urlencoded"&gt;
+		&lt;!-- If the request for this page is an "Initial Request", this &lt;h:inputText&gt; value will be assign by the returned method "HandleFormBean.getInputName()" --&gt;
+		&lt;!-- If the request for this page is an "Postbacks" (submit form), validate value and if it is OK, then this &lt;h:inputText&gt; value will be pass as argument to execute method "HandleFormBean.setInputName(String inputName)" --&gt;
+		&lt;h:inputText id="inputText1" title="Name:" value="#{handleFormBean.inputName}"&gt;&lt;/h:inputText&gt;
+		
+		&lt;!-- When user click this button, system will redirects the client to "test_form_response.xhtml" page, the "test_form_response.xhtml" should at the same directory as this page (test_form_request.xhtml) --&gt;
+		&lt;h:commandButton id="submit" value="Submit" <b>action="test_form_response.xhtml"</b>/&gt;
+		
+	&lt;/h:form&gt;
+&lt;/html&gt;
+</pre>
+<br/>
+
+<b>test_form_response.xhtml</b>: 
+<pre>
+&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"&gt;
+	&lt;h:head&gt;
+        &lt;title&gt;Facelets Simple Form&lt;/title&gt;
+    &lt;/h:head&gt;
+	&lt;!-- will get the returned value of method HandleFormBean.getInputName() then display it: --&gt;
+	Your submitted name is: &lt;h:outputLabel value="#{handleFormBean.inputName}"&gt;&lt;/h:outputLabel&gt; 
+&lt;/html&gt;
+</pre>
+
+<br/>
+<b>HandleFormBean.java:</b>
+<pre>
+package com.reinard.bean;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+//This class used in "test_form_request.xhtml", and "test_form_response.xhtml" page
+@ManagedBean
+@SessionScoped
+public class HandleFormBean {
+	
+	//initial value
+	private String inputName = "input your name";
+
+	public String getInputName() {
+		return inputName;
+	}
+
+	public void setInputName(String inputName) {
+		this.inputName = inputName;
+	}
+	
+	public HandleFormBean(){
+		super();
+	}
+
+}
+</pre><br/><br/>
+
+<b>Example 6 of ManagedBean and Facelets (Submit simple HTML Form, using bean's method in <code>action=""</code> attribute):</b> <br/>
+<b>Structure folder of this example:</b>
+<center><img src="submit_form_web_folder.jpg" width="853" height="480"><br/>Structure Folder<br/></center> <br/><br/>
+
+<b>test_form_request.xhtml: </b>
+<pre>
+&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"&gt;
+	&lt;h:head&gt;
+        &lt;title&gt;Facelets Simple Form&lt;/title&gt;
+    &lt;/h:head&gt;
+	&lt;h:form method="post" enctype="application/x-www-form-urlencoded"&gt;
+		&lt;!-- If the request for this page is an "Initial Request", this &lt;h:inputText&gt; value will be assign by the returned method "HandleFormBean.getInputName()" --&gt;
+		&lt;!-- If the request for this page is an "Postbacks" (submit form), validate value and if it is OK, then this &lt;h:inputText&gt; value will be pass as argument to execute method "HandleFormBean.setInputName(String inputName)" --&gt;
+		&lt;h:inputText id="inputText1" title="Name:" value="#{handleFormBean.inputName}"&gt;&lt;/h:inputText&gt;
+		
+		&lt;!-- When user click this button, system will call method "HandleFormBean.buttonSubmit()" --&gt;
+		&lt;h:commandButton id="submit" value="Submit" <b>action="#{handleFormBean.buttonSubmit()}</b>"/&gt;
+		
+	&lt;/h:form&gt;
+&lt;/html&gt;
+</pre>
+<br/>
+
+<b>test_form_response.xhtml</b>
+<pre>
+&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"&gt;
+	&lt;h:head&gt;
+        &lt;title&gt;Facelets Simple Form&lt;/title&gt;
+    &lt;/h:head&gt;
+	&lt;!-- will get the returned value of method HandleFormBean.getInputName() then display it: --&gt;
+	Your submitted name is: &lt;h:outputLabel value="#{handleFormBean.inputName}"&gt;&lt;/h:outputLabel&gt;  
+&lt;/html&gt;
+</pre>
+
+<b>HandleFormBean.java:</b>
+<pre>
+package com.reinard.bean;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+//This class used in "test_form_request.xhtml", and "test_form_response.xhtml" page
+@ManagedBean
+@SessionScoped
+public class HandleFormBean {
+	
+	//initial value
+	private String inputName = "input your name";
+
+	public String getInputName() {
+		return inputName;
+	}
+
+	public void setInputName(String inputName) {
+		this.inputName = inputName;
+	}
+	
+	public HandleFormBean(){
+		super();
+	}
+	
+	<b>
+	//Will be executed after user click submit button in "test_form_request.xhtml" page.
+	//will response to show "test_form_response.xhtml" page.
+	public String buttonSubmit(){
+		return "test_form_response.xhtml";
+	}
+	</b>
+}
+</pre>
+</div>
+==================================================================================
+
+<br/><br/>
+
+* <h3>===JSF template===</h3>
+read: <i>http://docs.oracle.com/javaee/6/tutorial/doc/giqxp.html, http://docs.oracle.com/javaee/6/javaserverfaces/2.1/docs/vdldocs/facelets/</i><br/><br/>
+
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; Templating is a useful Facelets feature that allows you to create a page that will act as the base, or template, for the other pages in an application.<br/>
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; By using templates, you can reuse code and avoid recreating similarly constructed pages. Templating also helps in maintaining a standard look and feel in an application with a large number of pages. <br/>
+&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; To use templating in JSF, we need two files which is "template" and "composition". At runtime, JSF synthesizes the two previous XHTML pages to create a single JSF view by inserting the pieces defined in the "composite" into the "template". <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; The "template" is a page that act as a template/base, to provide a blueprint of user interface design (consistent display for all web page). <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#x25AA;&nbsp; The "composite" is a page that define a content. This content will be inserted into the "template" page. <br/>
+Note: <b>Each "composite" page is associated with a "template" page. So we just access the "composite" page, and the JSF will automatically combined two of them into a "view".</b> 
+<br/><br/>
+
+<b>Example 1 (template and composition): </b><br/><br/>
+<pre><b>test_template.xhtml:</b></pre>
+<pre>
+&lt;!-- This is a "Template" page --&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"&gt;
+	
+&lt;head&gt;
+
+&lt;title&gt;
+&lt;!-- Below tag will be replace by content name "title" that defined in "Composition" page --&gt;
+&lt;ui:insert name="title"&gt;&lt;/ui:insert&gt;
+&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+	&lt;div&gt;
+		&lt;!-- Below tag will be replace by content name "heading" that defined in "Composition" page --&gt;
+		&lt;ui:insert name="heading" /&gt;
+	&lt;/div&gt;
+
+	&lt;div&gt;
+		&lt;!-- Below tag will be replace by content name "content" that defined in "Composition" page --&gt;
+		&lt;ui:insert name="content" /&gt;
+	&lt;/div&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</pre>
+<br/>
+
+<pre><b>test_request.xhtml:</b></pre>
+<pre>
+&lt;!-- This is a "Composition" page --&gt;
+&lt;!-- template="test_template.xhtml" indicates that this Composition page, associated with template: "test_template.xhtml"--&gt;
+&lt;!-- Note: file test_template.xhtml must on same directory as this file --&gt;
+&lt;ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" template="test_template.xhtml"&gt;
+	
+	&lt;!-- Define a content name "title" --&gt;
+	&lt;ui:define name="title"&gt;This is title&lt;/ui:define&gt;
+	
+	&lt;!-- Define a content name "heading" --&gt;
+	&lt;ui:define name="heading"&gt;This is heading&lt;/ui:define&gt;
+	
+	&lt;!-- Define a content name "content" --&gt;
+	&lt;ui:define name="content"&gt;
+
+		&lt;h:form method="post" enctype="application/x-www-form-urlencoded"&gt;
+			Name: &lt;h:inputText id="inputText1" value="#{testBean.name}"&gt;&lt;/h:inputText&gt;
+			&lt;br /&gt;
+			
+			Address: &lt;h:inputText id="inputText2" value="#{testBean.address}"&gt;&lt;/h:inputText&gt;
+			&lt;br /&gt;
+		
+			&lt;h:commandButton id="submit" value="Submit" action="#{testBean.save()}" /&gt;
+		&lt;/h:form&gt;
+
+	&lt;/ui:define&gt;
+
+&lt;/ui:composition&gt;
+</pre>
+
+<br/><br/>
+
+
+* You can get the HTTP Request and access HTTP Response using these code in "ManagedBean": <br/>
+
+<div id="code">
+<pre>
+ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalCoontext();
+HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
+</pre>
+<br/><br/>
+</div>
+
+</html>
+</pre>
+</body>
+</html>

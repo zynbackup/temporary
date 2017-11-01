@@ -1,0 +1,37 @@
+EGit adalah sebuah plugin di eclipse, yang berfungsi untuk dapat melakukan update repository dari Eclipse ke GitHub repository.
+
+EGit di Eclipse memiliki 3 tempat penyimpanan file untuk file yang sama, yaitu
+
+1. Eclipse File (Terdapat di folder current workspace eclipse)
+2. Local Repository. Terdapat di folder local git, contoh: )
+3. Remote Repository. (Terdapat di website GitHub)
+
+* Team-> Synchronized Workspace, untuk membandingkan data Eclipse File dan Remote Repository.
+* Team-> Override: Mengganti Eclipse File dengan Remote File.
+
+* Cara Update file Dari Remote Repository ke Eclipse File:
+1. Klik kanan di project, pilih Team -> Synchronize Workspace.
+2. Open in Prospective.
+3. Klik Kanan, pilih "Overwrite."
+4. 
+
+* Commit: Untuk save data dari Eclipse File ke Local Repository
+1. Klik kanan, pilih Commit, drag file dari kolom "Unstaged Changes" ke "Staged Changes".
+2. Isi Commit Message.
+3. Pilih Commit.
+
+* Push To Upstream: Untuk commit dari Local Repository ke Remote Repository.
+* Replace With HEAD Revision: Replace file Eclipse menjadi file dari Local Repository.
+
+* HEAD Revision, adalah commit terakhir yang ada di local repository.
+* Untuk melihat history commit di Local Repository: Klik kanan di file, pilih Team -> Show In History.
+* Hanya file Local Repository yang dapat di commit ke Remote Repository.
+
+* Jika terjadi conflict, maka: 
+Replace Eclipse File dengan file dari local repository dengan cara:
+
+1. Klik kanan di file tersebut, pilih Compare With -> HEAD Revision.
+2. Copy code dari Local Repository ke Eclipse File, lalu Save.
+3. Klik kanan lalu commit file.
+ 
+Non Fast Forward?
