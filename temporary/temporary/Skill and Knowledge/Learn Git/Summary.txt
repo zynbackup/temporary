@@ -1,0 +1,202 @@
+﻿===This is the frequently used git syntax===
+
+Note: Before using any git syntax please make sure that:
+1. Git software is already installed in your computer.
+2. Add directory "C:\Program Files\Git\cmd" into your "PATH" environtment variable, so file "C:\Program Files\Git\cmd\git.exe" could be executed using "command prompt" from any directory
+
+Note: read "github-git-cheat-sheet.pdf" for more usefull git syntax
+
+Note: Before push to remote repository, make sure that you execute "git fetch" or "git pull" from remote repository
+
+* Maximum file size is 100 MB to be uploaded to github.
+
+* In order to begin tracking a new file, you use the command git add.
+
+
+* "origin/master" means the remote repository named "origin" that on branch "master"
+
+if your local directory last commit is ahead the remote repository, then you want to push changes to remote repository, but error happen then:
+* you want to revert the local directory back to the commit id that same as on the remote repository, so you could push another changes to remote repository, using syntax: git reset --soft <commit id>, example: git reset --soft 9bfaa25766585be24d074c6814576b68b9dfc3cd
+
+* If you clone a repository, the command automatically adds that remote repository under the name “origin”. So, git fetch origin fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the git fetch command only downloads the data to your local repository, git doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+
+* Running git pull generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
+
+note: read: https://stackoverflow.com/questions/8196544/what-are-the-git-concepts-of-head-master-origin
+note: read: https://stackoverflow.com/questions/4386959/difference-between-head-and-master
+
+Note: Git system has 3 different "storage" to store files:
+1. The Git directory (.git directory). It could be local or remote repository. It is what is copied when you clone a repository from another computer
+2. Staging Area or index. The staging area is a file, generally contained in your Git directory, that stores information about what will go into your next commit.
+3. Working directory. The working tree is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+
+===To Get All Data From Remote Repository into Local Repository===
+1. Make a new directory to store the remote repository file.
+2. Using command and prompt, change to that directory.
+3. Use "git init" syntax.
+Example: git init
+4. Use "git clone" syntax.
+Example: git clone ssh://reinardhz@git.code.sf.net/p/learn-hanzi/git
+
+===To see commit in remote repository but not yet on local repository===
+Syntax: git log master..<remote_name>/master
+Example: git log master..origin/master
+Description: Display all commit in remote repository that is not on the local repository
+
+===To see commit in local repository but not yet pushed to remote repository===
+Syntax: git log <remote_name>/master..master
+Example: git log origin/master..master
+Description: Display all commit in local repository that is not yet pushed to remote repository
+
+===To show all commit history of remote repository===
+Syntax:git fetch <remote_name>
+git log <remote_name><branch_name>
+Example:
+1. git fetch origin
+2. git log origin/master
+============================
+
+===To merge a specific commit id===
+Syntax: git cherry-pick <commit-id>
+Example: git cherry-pick d42c389f
+=====================================
+
+===To show the diffence between: ===
+* your working copy and staging area:
+Syntax: git diff
+
+* staging area and the latest commit:
+Syntax: git diff --staged
+
+* your working directory and commit 4ac0a6733:
+Syntax: git diff 4ac0a6733
+
+* commit 4ac0a6733 and the latest commit:
+Syntax: git diff 4ac0a6733 HEAD
+
+* commit 4ac0a6733 and commit 826793951
+Syntax: git diff 4ac0a6733 826793951
+
+Syntax: git diff <commit> <filepath>
+Description: To show the diffence between current working file and specific commit that identified by sha-1, and print the difference in console.
+Example: git diff 33c157176cedad8a22fecfda555065e058479046 README.txt
+
+Syntax: git difftool <commit> <filepath>
+Description: To show the diffence between current working file and specific commit that identified by sha-1, and print the difference in tools installed.
+Example: git difftool 33c157176cedad8a22fecfda555065e058479046 README.txt
+
+Syntax: git diff <filepath> <filepath>
+Description: To show the diffence between two difference files.
+Example: git diff "C:\Users\reinard.santosa\Desktop\How to add ip address printer.txt" "C:\Users\reinard.santosa\Desktop\current bug.txt"
+============================
+
+===To restore the deleted file after executing "git rm <file>"===
+Syntax: git reset Head <file>
+git checkout -- <file>
+
+Example:
+git rm "Worklog/30 October 2017.txt"
+git reset Head "Worklog/30 October 2017.txt"
+git checkout -- "Worklog/30 October 2017.txt"
+
+===Add remote name and url===
+Syntax: git remote add <name> <url>
+Example: git remote add learn_hanzi_repository ssh://reinardhz@git.code.sf.net/p/learn-hanzi/git
+Description: Adds a remote named "learn_hanzi_repository" for the repository at "ssh://reinardhz@git.code.sf.net/p/learn-hanzi/git"
+
+
+===View All Already Added Remote Repository===
+Syntax: git remote -v
+Example: git remote -v
+Description: View All Already Added Remote Repository name and url.
+
+
+===To Add the file to staging area===
+Syntax: git add <file_name>
+Example: git add "E:\PROJECT LEARN HANZI\myhanzi\src\main\webapp\WEB-INF\web.xml"
+Description: Copy the file you want to add to the working directory, before perform this command.
+
+
+==To see the changed files from working directory and staging area (index)==
+* "git diff" command will display the changes in console, but diff display info is difficult for me to understand.
+So I can use another tools, to provide good user interface when execute "git diff".
+It is recommended to use p4merge tool.
+
+* After download and install p4merge, setting git to use p4merge program to perform "git diff", using command:
+1.Create custom name of the diff tool:
+git config --global diff.tool p4merge
+
+2. Set the path to execute the p4merge tool:
+git config --global diff.tool.path "E:\Program Files\Perforce\p4merge.exe"
+
+3. Execute "git difftool", to automatically view changes, that will be displayed using p4merge.exe.
+
+
+===To Commit===
+git commit -m "test commit"
+Description: update the content in staged area to the local repository, with message "test commit"
+
+
+===To update the committed file to the remote repository==
+Syntax: git push <remote_repository_name> master
+Example: git push learn_hanzi_repository master
+Description: Will update the committed file to the remote repository, that remote url repository is on custom name "learn_hanzi_repository".
+
+
+===To automatically replace LF character into CRLF characters when checkout, and convert CRLF into LF when commit===
+Syntax: git config --global core.autocrlf true
+
+===To show Commit history===
+Syntax: git -p <filepath>
+Description: Show all the commit logs of the specified file.
+Example: git -p README.txt
+
+Syntax: git log -p <filepath>
+Description: Show all commit of the file in the working directory and show the difference between commit. 
+Working directory is the folder that contains ".git" folder.
+Example: git log -p "C:\Users\reinard.santosa\git\git\src\main\webapp\WEB-INF\web.xml"
+============================
+
+===To show the diffence between two files===
+Note: It is better to use GIT_PAGER='' before git diff command, to prevent the long line of text result is getting truncated.
+Example: GIT_PAGER='' git diff 33c157176cedad8a22fecfda555065e058479046 README.txt
+
+Syntax: git diff <commit> <filepath>
+Description: To show the diffence between current working file and specific commit that identified by sha-1, and print the difference in console.
+Example: git diff 33c157176cedad8a22fecfda555065e058479046 README.txt
+
+Syntax: git difftool <commit> <filepath>
+Description: To show the diffence between current working file and specific commit that identified by sha-1, and print the difference in tools installed.
+Example: git difftool 33c157176cedad8a22fecfda555065e058479046 README.txt
+
+Syntax: git diff <filepath> <filepath>
+Description: To show the diffence between two difference files.
+Example: git diff "C:\Users\reinard.santosa\Desktop\How to add ip address printer.txt" "C:\Users\reinard.santosa\Desktop\current bug.txt"
+============================
+
+
+===To show all branches of the remote repositories===
+Syntax: git remote show <remote name>
+Example: git remote show learn_hanzi_repository
+Description: to show all branches of the remote repositories url that defined in remote name "learn_hanzi_repository"
+
+===To get the all branches from remote repositories into local repository===
+Syntax: git fetch <remote name>
+Example: git fetch learn_hanzi_repository
+Description: to get all branches of the remote repositories url that defined in remote name "learn_hanzi_repository"
+
+===To show all local branches===
+Syntax: git branch -a
+Example: git branch -a
+Description: To show all branches in local repository.
+
+===To switch working directory to local branch===
+Syntax: git checkout <branch name>
+Example: git checkout branch_testing
+Description: To switch to branch name branch_testing, this will affect the files and the folder, so it match on the folders and files in the branch_testing.
+
+==To apply all changes from remote repository into local repository===
+Syntax: git pull
+Example: git pull
+Description: "git pull", is a shorthand for "git fetch" followed by "git merge FETCH_HEAD".
+Note: Please be carefull, because this command will delete or add new file in your local repository, so the all files from local repository and remote repository are the same.

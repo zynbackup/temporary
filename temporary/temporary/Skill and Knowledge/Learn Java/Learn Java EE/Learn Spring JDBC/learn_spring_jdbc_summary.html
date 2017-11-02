@@ -1,0 +1,243 @@
+﻿<html>
+<head>
+<meta charset="UTF-8">
+<script>
+//function to show and hide element
+function show(id){
+	if(document.getElementById(id).style.display === "none"){
+		document.getElementById(id).style.display="block";
+	}else{
+		document.getElementById(id).style.display="none";
+	} 
+}
+</script>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+div.code { 
+background-color: #d5dee3;
+border-top-width: 3px;
+border-top-style: double;
+border-top-color: #d3d3d3;
+border-bottom-width: 4px;
+border-bottom-style: double;
+border-bottom-color: #d3d3d3;
+padding: 4px; margin: 0em 
+}
+</style>
+</head>
+<body>
+<h1>===Learn Spring JDBC===</h1>
+<br/>
+
+<h3>Spring JDBC</h3>
+<button type="button" onclick="show('spring_jdbc')">Show...</button> <br/>
+<div id="spring_jdbc" style="display:none">
+<div class="code">
+Example: <br/>
+<b>employee.sql:</b><br/>
+<pre>
+CREATE TABLE public.employee
+(
+  id bigint NOT NULL,
+  name character varying,
+  address character varying,
+  gender character varying,
+  nationality character varying,
+  CONSTRAINT pk_id PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE employee
+  OWNER TO postgres;
+  
+
+INSERT INTO employee(id, name, address, gender, nationality) VALUES (9002322, 'Wu yong min', 'petojo', 'Male', 'Taiwanese');
+INSERT INTO employee(id, name, address, gender, nationality) VALUES (5423451, 'Charlie', 'kuningan', 'Male', 'USA');
+INSERT INTO employee(id, name, address, gender, nationality) VALUES (9696231, 'Andi', 'kemayoran', 'Male', 'Indonesian');
+</pre> <br/>
+
+<b>MainApp.java:</b><br/>
+<pre>
+package com.reinard.main;
+
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.postgresql.Driver;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+
+import com.reinard.mapper.EmployeeMapper;
+import com.reinard.model.Employee;
+
+public class MainApp {
+
+	public static void main(String[] args) {
+
+		System.out.println("Preparing DataSource to connect to database...");
+		
+		Driver postgresqlDriver = new Driver();
+		String connectionString="jdbc:postgresql://localhost/internal";
+		String username="postgres";
+		String password="agci123";
+		DataSource dataSource = new SimpleDriverDataSource(postgresqlDriver, connectionString, username, password);
+		
+		if(dataSource != null){
+			System.out.println("connected to database !");
+		}else{
+			System.out.println("not connected to database !");
+		}
+		
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		String sql = "SELECT * FROM public.employee;";
+		RowMapper&lt;Employee> rowMapper = new &lt;Employee>EmployeeMapper();
+		
+		//Execute an SQL query, mapping each row to a Java object via a RowMapper.
+		List&lt;Employee> result = jdbcTemplate.query(sql, rowMapper);
+		System.out.println(result);
+	}
+
+}
+
+</pre> <br/>
+
+<b>EmployeeMapper.java:</b><br/>
+<pre>
+package com.reinard.mapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.springframework.jdbc.core.RowMapper;
+
+import com.reinard.model.Employee;
+/**
+ * A class used by "org.springframework.jdbc.core.JdbcTemplate" for mapping rows of a "java.sql.ResultSet" to Java POJO class.
+ * 
+ * @author reinard
+ *
+ */
+public class EmployeeMapper implements RowMapper&lt;Employee>{
+	
+	public &lt;Employee> EmployeeMapper(){
+		super();
+	}
+	
+	/**
+	 * Execute a query given static SQL, mapping each row to a Java object via a RowMapper. &lt;br/>
+	 * This method will be executed n times by JdbcTemplate, where n is the number of the row in the resultSet. &lt;br/>
+	 * This method should not call next() on the ResultSet; it is only supposed to map values of the current row. &lt;br/>
+	 * 
+	 * @param resultSet the resultSet of the executed query.
+	 * @param rowNum current row in the resultSet that is being proceed in this method.
+	 * @return the mapped object for the current row.
+	 */
+	@Override
+	public Employee mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+		Employee employee = new Employee();
+		
+		employee.setId(resultSet.getLong("id"));
+		employee.setName(resultSet.getString("name"));
+		employee.setAddress(resultSet.getString("address"));
+		employee.setGender(resultSet.getString("gender"));
+		employee.setNationality(resultSet.getString("nationality"));
+		
+		return employee;
+	}
+
+}
+
+</pre> <br/>
+
+<b>Employee.java:</b><br/>
+<pre>
+package com.reinard.model;
+
+/**
+ * A class to save the data of each row of the "public.employee" table.
+ * 
+ * @author reinard
+ *
+ */
+public class Employee {
+	
+	private long id;
+	private String name;
+	private String address;
+	private String gender;
+	private String nationality;
+	
+	public Employee(){
+		super();
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+
+}
+
+</pre> <br/>
+
+
+</div>
+</div>
+
+
+</body>
+</html>
