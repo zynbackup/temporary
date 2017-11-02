@@ -12,19 +12,23 @@ Note: Before push to remote repository, make sure that you execute "git fetch" o
 
 * In order to begin tracking a new file, you use the command git add.
 
-* syntax:git log, will show the last commit for both of the local repository and remote repository.
 
 * "origin/master" means the remote repository named "origin" that on branch "master"
 
 if your local directory last commit is ahead the remote repository, then you want to push changes to remote repository, but error happen then:
 * you want to revert the local directory back to the commit id that same as on the remote repository, so you could push another changes to remote repository, using syntax: git reset --soft <commit id>, example: git reset --soft 9bfaa25766585be24d074c6814576b68b9dfc3cd
 
-* If you clone a repository, the command automatically adds that remote repository under the name “origin”. So, git fetch origin fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the git fetch command only downloads the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+* If you clone a repository, the command automatically adds that remote repository under the name “origin”. So, git fetch origin fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the git fetch command only downloads the data to your local repository, git doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
 
 * Running git pull generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
 
 note: read: https://stackoverflow.com/questions/8196544/what-are-the-git-concepts-of-head-master-origin
 note: read: https://stackoverflow.com/questions/4386959/difference-between-head-and-master
+
+Note: Git system has 3 different "storage" to store files:
+1. The Git directory (.git directory). It could be local or remote repository. It is what is copied when you clone a repository from another computer
+2. Staging Area or index. The staging area is a file, generally contained in your Git directory, that stores information about what will go into your next commit.
+3. Working directory. The working tree is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
 
 ===To Get All Data From Remote Repository into Local Repository===
 1. Make a new directory to store the remote repository file.
@@ -34,9 +38,62 @@ Example: git init
 4. Use "git clone" syntax.
 Example: git clone ssh://reinardhz@git.code.sf.net/p/learn-hanzi/git
 
+===To see commit in remote repository but not yet on local repository===
+Syntax: git log master..<remote_name>/master
+Example: git log master..origin/master
+Description: Display all commit in remote repository that is not on the local repository
+
+===To see commit in local repository but not yet pushed to remote repository===
+Syntax: git log <remote_name>/master..master
+Example: git log origin/master..master
+Description: Display all commit in local repository that is not yet pushed to remote repository
+
+===To show all commit history of remote repository===
+Syntax:git fetch <remote_name>
+git log <remote_name><branch_name>
+Example:
+1. git fetch origin
+2. git log origin/master
+============================
+
+===To merge a specific commit id===
+Syntax: git cherry-pick <commit-id>
+Example: git cherry-pick d42c389f
+=====================================
+
+===To show the diffence between: ===
+* your working copy and staging area:
+Syntax: git diff
+
+* staging area and the latest commit:
+Syntax: git diff --staged
+
+* your working directory and commit 4ac0a6733:
+Syntax: git diff 4ac0a6733
+
+* commit 4ac0a6733 and the latest commit:
+Syntax: git diff 4ac0a6733 HEAD
+
+* commit 4ac0a6733 and commit 826793951
+Syntax: git diff 4ac0a6733 826793951
+
+Syntax: git diff <commit> <filepath>
+Description: To show the diffence between current working file and specific commit that identified by sha-1, and print the difference in console.
+Example: git diff 33c157176cedad8a22fecfda555065e058479046 README.txt
+
+Syntax: git difftool <commit> <filepath>
+Description: To show the diffence between current working file and specific commit that identified by sha-1, and print the difference in tools installed.
+Example: git difftool 33c157176cedad8a22fecfda555065e058479046 README.txt
+
+Syntax: git diff <filepath> <filepath>
+Description: To show the diffence between two difference files.
+Example: git diff "C:\Users\reinard.santosa\Desktop\How to add ip address printer.txt" "C:\Users\reinard.santosa\Desktop\current bug.txt"
+============================
+
 ===To restore the deleted file after executing "git rm <file>"===
 Syntax: git reset Head <file>
 git checkout -- <file>
+
 Example:
 git rm "Worklog/30 October 2017.txt"
 git reset Head "Worklog/30 October 2017.txt"
@@ -86,8 +143,8 @@ Example: git push learn_hanzi_repository master
 Description: Will update the committed file to the remote repository, that remote url repository is on custom name "learn_hanzi_repository".
 
 
-===To automatically replace LF character into CRLF when checkout, and convert CRLF into LF when commit===
-git config --global core.autocrlf true
+===To automatically replace LF character into CRLF characters when checkout, and convert CRLF into LF when commit===
+Syntax: git config --global core.autocrlf true
 
 ===To show Commit history===
 Syntax: git -p <filepath>
@@ -101,6 +158,9 @@ Example: git log -p "C:\Users\reinard.santosa\git\git\src\main\webapp\WEB-INF\we
 ============================
 
 ===To show the diffence between two files===
+Note: It is better to use GIT_PAGER='' before git diff command, to prevent the long line of text result is getting truncated.
+Example: GIT_PAGER='' git diff 33c157176cedad8a22fecfda555065e058479046 README.txt
+
 Syntax: git diff <commit> <filepath>
 Description: To show the diffence between current working file and specific commit that identified by sha-1, and print the difference in console.
 Example: git diff 33c157176cedad8a22fecfda555065e058479046 README.txt
@@ -138,5 +198,5 @@ Description: To switch to branch name branch_testing, this will affect the files
 ==To apply all changes from remote repository into local repository===
 Syntax: git pull
 Example: git pull
-Description: "git pull", is shorthand for "git fetch" followed by "git merge FETCH_HEAD".
+Description: "git pull", is a shorthand for "git fetch" followed by "git merge FETCH_HEAD".
 Note: Please be carefull, because this command will delete or add new file in your local repository, so the all files from local repository and remote repository are the same.
