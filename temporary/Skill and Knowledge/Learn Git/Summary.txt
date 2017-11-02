@@ -1,8 +1,10 @@
-﻿===This is the frequently used git syntax===
+﻿<encoding>UTF-8</encoding>
+
+===This is the frequently used git syntax===
 
 source: https://stackoverflow.com/questions/8196544/what-are-the-git-concepts-of-head-master-origin
 source: https://stackoverflow.com/questions/4386959/difference-between-head-and-master
-
+source: https://stackoverflow.com/questions/8196544/what-are-the-git-concepts-of-head-master-origin
 
 Note: Before using any git syntax please make sure that:
 1. Git software is already installed in your computer.
@@ -23,11 +25,13 @@ Note: If you clone a repository, the command automatically adds that remote repo
 So, git fetch origin fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. 
 It’s important to note that the "git fetch" command only downloads the data to your local repository, git doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
 
-
 Note: Git system has 3 different "storage" to store files:
 1. The Git directory (.git directory). It could be local or remote repository. It is what is copied when you clone a repository from another computer
 2. Staging Area or index. The staging area is a file, generally contained in your Git directory, that stores information about what will go into your next commit.
 3. Working directory. The working tree is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+
+Note: 
+
 
 ===Add remote name and url===
 Syntax: git remote add <name> <url>
@@ -62,6 +66,12 @@ Example: git pull
 Description: "git pull", is a shorthand for "git fetch" followed by "git merge FETCH_HEAD".
 Note: Running git pull generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
 Note: Please be carefull, because this command will delete or add new file in your local repository, so the all files from local repository and remote repository are the same.
+============================
+
+===To show the file content of the specific commit id===
+Syntax: git show <commit-id>:<path/to/file>
+Example: git show 632867:current_file_in_directory.txt
+Description: To show the file content of the specific commit id.
 ============================
 
 ===To show all branches of the remote repositories===
