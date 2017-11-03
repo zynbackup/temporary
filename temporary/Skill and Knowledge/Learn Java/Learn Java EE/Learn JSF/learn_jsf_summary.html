@@ -1439,6 +1439,316 @@ public class Car {
 }
 </pre></div><br/>
 
+<b>* <code>&lt;p:selectOneMenu&gt;</code> component (basic drop-down list): </b><br/>
+Example: <br/>
+<div class="code">
+<b>dropdown-list.xhtml:</b><br/>
+<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+&lt;!-- Primefaces require &lt;h:head> tag, otherwise, it will not work. -->
+&lt;h:head>&lt;/h:head>
+
+&lt;h:body>
+
+&lt;h:form>
+	&lt;p:outputLabel for="menu" value="Select Menu: " />
+	
+	&lt;!-- Declare the drop-down list, store the selected "value" of "dropDownListBean.menus" in property "dropDownListBean.selectedFood" -->
+	&lt;p:selectOneMenu id="menu" value="#{dropDownListBean.selectedFood}">
+		&lt;!-- The initial text "Select Food"-->
+		&lt;f:selectItem itemLabel="Select Menu" itemValue="" noSelectionOption="true" />
+		
+		&lt;!-- Generate the drop-down list menu from all "key" of variable "dropDownListBean.menus" -->
+		&lt;f:selectItems value="#{dropDownListBean.menus}" />
+	&lt;/p:selectOneMenu>
+	
+	&lt;br/>&lt;br/>
+	&lt;!-- execute method "dropDownListBean.handleSubmit()" after this button is clicked. -->
+	&lt;p:commandButton value="Submit" actionListener="#{dropDownListBean.handleSubmit()}" icon="ui-icon-check">&lt;/p:commandButton>
+&lt;/h:form>
+
+&lt;/h:body>
+&lt;/html>
+</pre><br/>
+
+<b>DropDownListBean.java:</b><br/>
+<pre>
+package com.reinard.bean;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+@ManagedBean
+@SessionScoped
+public class DropDownListBean implements Serializable{
+	
+	//A variable to store the user selected food.
+	private String selectedFood;
+	
+	//A variable to display the "menus" in the xhtml page.
+	//Only the "key" in this map, is displayed in the xhtml page.
+	//The "value" in this map, is stored in the "selectedFood" variable, after user select the "menus".
+	private Map&lt;String,String> menus;
+	
+	public DropDownListBean(){
+		super();
+	}
+	
+	@PostConstruct
+	public void init(){
+		//Will display all "key" in the drop-down list.
+		//Each key is associated with "value". This "value" is stored in property "this.selectedFood", after user select item in drop-down list and click "submit" button.
+		String key = "";
+		String value = "";
+		menus = new HashMap&lt;String, String>();
+		
+		key = "Beef Black Pepper";
+		value = "Chinese Beef Black Pepper";
+		menus.put(key, value);
+		
+		key = "Pizza";
+		value = "Italian Pizza";
+		menus.put(key, value);
+		
+		key = "Hamburger";
+		value = "American burger";
+		menus.put(key, value);
+	}
+	
+	//method to execute after "Submit" button is clicked:
+	public void handleSubmit(){
+		//display the user selected value in the drop-down list:
+		System.out.println(getSelectedFood());
+	}
+
+	public Map&lt;String, String> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(Map&lt;String, String> menus) {
+		this.menus = menus;
+	}
+
+	public String getSelectedFood() {
+		return selectedFood;
+	}
+
+	public void setSelectedFood(String selectedFood) {
+		this.selectedFood = selectedFood;
+	}
+	
+}
+
+</pre><br/></div>
+
+<b>* <code>&lt;p:selectOneMenu&gt;</code> component (drop-down list with ajax): </b><br/>
+Example: <br/>
+
+<div class="code">
+<b>dropdown-list.xhtml:</b> <br/>
+<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+&lt;!-- Primefaces require &lt;h:head> tag, otherwise, it will not work. -->
+&lt;h:head>&lt;/h:head>
+
+&lt;h:body>
+
+&lt;h:form>
+	&lt;p:outputLabel for="menu" value="Select Menu: " />
+	
+	&lt;!-- Declare the drop-down list of menus, store the selected "value" of "dropDownListBean.menus" in property "dropDownListBean.selectedFood" -->
+	&lt;!-- If this drop-down is choose, then Execute method dropDownListBean.whenSelectMenu(), then update the &lt;p:selectOneMenu id="subMenu"> -->
+	&lt;p:selectOneMenu id="menu" value="#{dropDownListBean.selectedFood}">
+		&lt;!-- The initial text "Select Menu"-->
+		&lt;f:selectItem itemLabel="Select Menu" itemValue="" noSelectionOption="true" />
+		
+		&lt;!-- Execute method dropDownListBean.whenSelectMenu(), then update the &lt;p:selectOneMenu id="portion"> -->
+		&lt;p:ajax listener="#{dropDownListBean.whenSelectMenu}" update="portion" />
+		
+		&lt;!-- Generate the drop-down list menu from all "key" of variable "dropDownListBean.menus" -->
+		&lt;f:selectItems value="#{dropDownListBean.menus}" />
+	&lt;/p:selectOneMenu>
+	
+	&lt;br/>&lt;br/>
+	
+	&lt;p:outputLabel for="portion" value="Select portion: " />
+	&lt;!-- Declare the drop-down list of portion, store the selected "values" of "dropDownListBean.portions" in property "dropDownListBean.selectedPortion"-->
+	&lt;p:selectOneMenu id="portion" value="#{dropDownListBean.selectedPortion}">
+		&lt;!-- The initial text "Select Portion"-->
+		&lt;f:selectItem itemLabel="Select Portion" itemValue="" noSelectionOption="true" />
+		
+		&lt;!-- Generate the drop-down list menu from all "key" of variable "dropDownListBean.portion" -->
+		&lt;f:selectItems value="#{dropDownListBean.portions}" />
+	&lt;/p:selectOneMenu>
+	&lt;br/>&lt;br/>
+	&lt;!-- execute method "dropDownListBean.handleSubmit()" after this button is clicked. -->
+	&lt;p:commandButton value="Submit" actionListener="#{dropDownListBean.handleSubmit()}" icon="ui-icon-check">&lt;/p:commandButton>
+&lt;/h:form>
+
+&lt;/h:body>
+&lt;/html>
+</pre><br/>
+
+<b>DropDownListBean.java:</b> <br/>
+<pre>
+package com.reinard.bean;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+/**
+ * A class to practice Primefaces "drop-down list" component.
+ * 
+ * @author reinard
+ */
+@ManagedBean
+@SessionScoped
+public class DropDownListBean implements Serializable{
+	
+	//A variable to store the user selected food.
+	private String selectedFood;
+	
+	//A variable to store the user selected portion.
+	private String selectedPortion;
+	
+	//A variable to display the "menus" in the xhtml page.
+	//Only the "key" in this map, is displayed in the xhtml page.
+	//The "value" in this map, is stored in the "selectedFood" variable, after user select the "menus".
+	private Map&lt;String,String> menus;
+	
+	//A variable to display the "portions" in the xhtml page.
+	private Map&lt;String, String> portions;
+	
+	//A variable to store data menus and portions
+	private Map&lt;String, Map&lt;String, String>> data;
+	
+	public DropDownListBean(){
+		super();
+	}
+	
+	@PostConstruct
+	public void init(){
+		//Will display all "key" in the drop-down list.
+		//Each key is associated with "value". This "value" is stored in property "this.selectedFood", after user select item in drop-down list and click "submit" button.
+		String key = "";
+		String value = "";
+		menus = new HashMap&lt;String, String>();
+		
+		key = "Beef Black Pepper";
+		value = "Chinese Beef Black Pepper";
+		menus.put(key, value);
+		
+		key = "Sushi";
+		value = "Japanese Sushi";
+		menus.put(key, value);
+		
+		key = "Pizza";
+		value = "Italian Pizza";
+		menus.put(key, value);
+		
+		
+		//to store data portions, binding them with specific food:
+		data = new HashMap&lt;String, Map&lt;String, String>>();
+		
+		//display this portion, if user select "Beef Black Pepper"
+		Map&lt;String,String> blackPepperPortion = new HashMap&lt;String, String>();
+		blackPepperPortion.put("1 bowl of Chinese Black Pepper", "1 bowl of Chinese Black Pepper");
+		blackPepperPortion.put("2 bowl of Chinese Black Pepper", "2 bowl of Chinese Black Pepper");
+		blackPepperPortion.put("3 bowl of Chinese Black Pepper", "3 bowl of Chinese Black Pepper");
+		data.put("Chinese Beef Black Pepper", blackPepperPortion);
+		
+		//display this portion, if user select "Sushi"
+		Map&lt;String,String> sushiPortion = new HashMap&lt;String, String>();
+		sushiPortion.put("10 pieces of Japanese Sushi", "10 pieces of Japanese Sushi");
+		sushiPortion.put("20 pieces of Japanese Sushi", "20 pieces of Japanese Sushi");
+		sushiPortion.put("30 pieces of Japanese Sushi", "30 pieces of Japanese Sushi");
+		data.put("Japanese Sushi", sushiPortion);
+		
+		//display this portion, if user select "Pizza"
+		Map&lt;String,String> pizzaPortion = new HashMap&lt;String, String>();
+		pizzaPortion.put("small size pan", "small size pan");
+		pizzaPortion.put("medium size pan", "medium size pan");
+		pizzaPortion.put("large size pan", "large size pan");
+		data.put("Italian Pizza", pizzaPortion);
+		
+	}
+	
+	//method to execute after "Submit" button is clicked:
+	public void handleSubmit(){
+		//display the user selected value in the drop-down list:
+		System.out.println(getSelectedFood());
+	}
+	
+	//method to execute, if user select menu:
+	public void whenSelectMenu(){
+		
+		//display the portions, associated with the menu
+		 if(selectedFood !=null && !selectedFood.equals("")){
+			 portions = data.get(selectedFood);
+		 }else{
+			 portions = new HashMap&lt;String, String>();
+	     }
+	            
+	}
+	
+
+	public String getSelectedPortion() {
+		return selectedPortion;
+	}
+
+	public void setSelectedPortion(String selectedPortion) {
+		this.selectedPortion = selectedPortion;
+	}
+	
+
+	public Map&lt;String, String> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(Map&lt;String, String> menus) {
+		this.menus = menus;
+	}
+
+	public String getSelectedFood() {
+		return selectedFood;
+	}
+
+	public void setSelectedFood(String selectedFood) {
+		this.selectedFood = selectedFood;
+	}
+
+	public Map&lt;String, String> getPortions() {
+		return portions;
+	}
+
+	public void setPortions(Map&lt;String, String> portions) {
+		this.portions = portions;
+	}
+	
+	
+}
+
+</pre></div>
+
+
 </div>
 ===================================================================================
 <br/><br/>
