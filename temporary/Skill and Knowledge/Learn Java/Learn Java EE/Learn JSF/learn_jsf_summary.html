@@ -505,11 +505,11 @@ public class TestBean {
 	
 	private Integer[] arrInt = {1,2,3,4,5}; 
 	
-	private ArrayList<String> arrList;
+	private ArrayList&lt;String> arrList;
 	
 	public TestBean(){
 		super();
-		arrList = new ArrayList<String>();
+		arrList = new ArrayList&lt;String>();
 		arrList.add("siberian husky");
 		arrList.add("bulldog");
 		arrList.add("german shepherd");
@@ -524,11 +524,11 @@ public class TestBean {
 		System.out.println(arrInt);
 	}
 	
-	public ArrayList<String> getArrList() {
+	public ArrayList&lt;String> getArrList() {
 		return arrList;
 	}
 
-	public void setArrList(ArrayList<String> arrList) {
+	public void setArrList(ArrayList&lt;String> arrList) {
 		this.arrList = arrList;
 	}
 	
@@ -638,43 +638,128 @@ source: https://docs.oracle.com/javaee/7/javaserver-faces-2-2/vdldocs-facelets/t
 source:https://docs.oracle.com/javaee/7/api/ (javax.faces.component.html.HtmlCommandLink) <br/><br/>
 
 * Must be inside &lt;h:form> tag. <br/>
+* Render an HTML hyperlink, to navigate to another page when clicked. <br/>
 * Render an HTML "a" anchor element that acts like a form submit button when clicked. <br/><br/>
-Example: <br/>
 
+Example 1 (hyperlink): <br/>
 <div class="code">
-<b>learn-immediate.xhtml</b><br/>
+<b>hyperlink.xhtml:</b><br/>
 <pre>
 &lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html">
 &lt;h:head>&lt;/h:head>
 &lt;h:body>
 &lt;h:form>
-	&lt;!-- Will execute method ImmediateBean.clickMe() after this link is clicked -->
-	&lt;h:commandLink id="click" action="#{immediateBean.clickMe}" immediate="true">
+	&lt;!-- Will navigate to "response.xhtml" page, after this link is clicked -->
+	&lt;h:commandLink id="click" action="response.xhtml">
+    	&lt;h:outputText value="click me"/>
+	&lt;/h:commandLink>
+&lt;/h:form>
+&lt;/h:body>
+&lt;/html>
+</pre>
+</div>
+<br/><br/>
+
+Example 2 (like a form submit button): <br/>
+<div class="code">
+<b>like-submit-button.xhtml</b><br/>
+<pre>
+&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html">
+&lt;h:head>&lt;/h:head>
+&lt;h:body>
+&lt;h:form>
+	&lt;!-- Will execute method LikeSubmitButton.clickMe() after this link is clicked -->
+	&lt;h:commandLink id="click" action="#{likeSubmitButton.clickMe}">
     	&lt;h:outputText value="click me"/>
 	&lt;/h:commandLink>
 &lt;/h:form>
 &lt;/h:body>
 &lt;/html>
 </pre> <br/>
-<b>ImmediateBean.java:</b><br/>
+<b>LikeSubmitButton.java:</b><br/>
 <pre>
 package com.reinard.bean;
 
 import javax.faces.bean.ManagedBean;
 
 @ManagedBean
-public class ImmediateBean {
+public class LikeSubmitButton {
 	
-	public ImmediateBean() {
+	public LikeSubmitButton() {
 		super();
 	}
 	
 	public void clickMe() {
-		System.out.println("clickMe() called");
+		System.out.println("clickMe() called !");
+		//execute business logic here...
+		System.out.println("response \"response.xhtml\" page to client");
+		return "response.xhtml";
 	}
 	
 }
 </pre></div>
+
+<h4>JSF Validator</h4>
+for more info read: <br/>
+<i>http://docs.oracle.com/javaee/6/tutorial/doc/bnatc.html</i><br/>
+<i>http://docs.oracle.com/javaee/6/tutorial/doc/bnarc.html</i><br/> <br/>
+
+Example 1 (Using Standard Validator): <br/>
+<div class="code">
+<b>test_validator.xhtml</b>: <br/>
+<pre>
+&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+
+	&lt;h:head>
+        &lt;title>Test Validation&lt;/title>
+    &lt;/h:head>
+    
+    &lt;h:body>
+    	
+    	&lt;!-- Using Standard JSF Validator -->
+    	&lt;h:form method="post" enctype="application/x-www-form-urlencoded">
+    		
+    		Input Country Code: 
+    		&lt;!-- The validation will happen, after user click "Submit" button-->
+    		&lt;!-- required="true", indicate that user must input something into this "inputText", otherwise, an unexpected error will happen, when this form is submitted. -->
+    		&lt;!-- If user input whitespace (ie: space character), and click "Submit" button, it does not produce validation error.-->
+    		&lt;h:inputText id="inputText1" value="" required="true">
+    			
+    			&lt;!-- Validate that the user input must be minimum 2 characters and maximum 3 characters, otherwise validation error happen -->
+    			&lt;f:validateLength minimum="2" maximum="3">&lt;/f:validateLength>
+    		
+    		&lt;/h:inputText> &lt;br/>
+    		
+    		&lt;!-- When user click this button, system will redirects the client to "response.xhtml" page, the "response.xhtml" should at the same directory as this page (test_validator.xhtml) -->
+			&lt;h:commandButton id="submit" value="Submit" action="response.xhtml"/>
+    	&lt;/h:form>
+    	
+    	&lt;!-- Display error message here, if there are validation error in "inputText1" element -->
+    	&lt;h:message showDetail="true" for="inputText1">&lt;/h:message>
+    	
+    &lt;/h:body>
+
+&lt;html>
+</pre></div>
+<br/><br/><br/>
+
+<h4>JSF Events & Listeners</h4>
+The JavaServer Faces event and listener model is similar to the JavaBeans event model in that it has strongly typed event classes and listener interfaces that an application can use to handle events generated by UI components. <br/><br/>
+
+An <code>Event</code> object identifies the component that generated the event and stores information about the event. To be notified of an event, an application must provide an implementation of the Listener class and must register it on the component that generates the event. <br/>
+When the user activates a component, such as by clicking a button, an event is fired. <br/>
+This causes the JavaServer Faces implementation to invoke the listener method that processes the event. <br/><br/>
+
+JavaServer Faces technology supports three kinds of events: value-change events, action events, and data-model events. <br/><br/>
+
+An <b><code>action event</code></b> occurs when the user activates a component that implements <code>javax.faces.component.ActionSource</code>. <br/>
+These components include <code>&lt;h:commandButton></code> (<code>javax.faces.component.html.HtmlCommandButton</code>) and <code>&lt;h:commandLink></code> (<code>javax.faces.component.html.HtmlCommandLink</code>). <br/>
+
+note: Only components that implement <code>javax.faces.component.ActionSource</code> can use the <code>action</code> and <code>actionListener</code> attributes. <br/>
+note: Only components that implement <code>javax.faces.component.EditableValueHolder</code> can use the <code>validator</code> or <code>valueChangeListener</code> attributes.
+
+Example: <br/>
+
 
 
 </div>
@@ -1752,59 +1837,6 @@ public class DropDownListBean implements Serializable{
 </div>
 ===================================================================================
 <br/><br/>
-
-
-
-
-<h3>===JSF Validator===</h3>
-for more info read: <br/>
-<i>http://docs.oracle.com/javaee/6/tutorial/doc/bnatc.html</i><br/>
-<i>http://docs.oracle.com/javaee/6/tutorial/doc/bnarc.html</i><br/>
-<button type="button" onclick="show('jsf_validator')">Show...</button> <br/>
-<div id="jsf_validator" style="display:none">
-
-Example 1 (test_validator.xhtml)(Using Standard Validator): <br/>
-<pre>
-&lt;html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
-
-	&lt;h:head>
-        &lt;title>Test Validation&lt;/title>
-    &lt;/h:head>
-    
-    &lt;h:body>
-    	
-    	&lt;!-- Using Standard JSF Validator -->
-    	&lt;h:form method="post" enctype="application/x-www-form-urlencoded">
-    		
-    		Input Country Code: 
-    		&lt;!-- The validation will happen, after user click "Submit" button-->
-    		&lt;!-- required="true", indicate that user must input something into this "inputText", otherwise, an unexpected error will happen, when this form is submitted. -->
-    		&lt;!-- If user input whitespace (ie: space character), and click "Submit" button, it does not produce validation error.-->
-    		&lt;h:inputText id="inputText1" value="" required="true">
-    			
-    			&lt;!-- Validate that the user input must be minimum 2 characters and maximum 3 characters, otherwise validation error happen -->
-    			&lt;f:validateLength minimum="2" maximum="3">&lt;/f:validateLength>
-    		
-    		&lt;/h:inputText> &lt;br/>
-    		
-    		&lt;!-- When user click this button, system will redirects the client to "response.xhtml" page, the "response.xhtml" should at the same directory as this page (test_validator.xhtml) -->
-			&lt;h:commandButton id="submit" value="Submit" action="response.xhtml"/>
-    	&lt;/h:form>
-    	
-    	&lt;!-- Display error message here, if there are validation error in "inputText1" element -->
-    	&lt;h:message showDetail="true" for="inputText1">&lt;/h:message>
-    	
-    &lt;/h:body>
-
-</html>
-</pre>
-
-</div>
-==================================================================================
-<br/><br/><br/>
-
-
-
 
 
 <h3>Implicit Object</h3>

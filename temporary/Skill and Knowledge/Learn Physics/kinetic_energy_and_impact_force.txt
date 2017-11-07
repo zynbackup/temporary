@@ -1,0 +1,15 @@
+===Kinetic Energy and Impact Force===
+source: https://sciencing.com/calculate-force-impact-7617983.html
+
+Kinetic energy is the energy an object has because of its motion.
+A force can cause an object with mass to change its velocity.
+Work occurs when a force is applied to move an object a certain distance. Therefore, work is equal to force multiplied by distance: W = F × d. 
+
+Impact Force or a slowing down force, is a force to slowing down an moving object.
+
+Note: To reduce impact force of the car receive, the car's current kinetic energy must be used to do some work to another object, so the kinetic energy is transfered.
+It can be achieved by:
+* Design a car with long "crumple zone", so more car's kinetic energy will be used to crumple it.
+* Design a car with high toughness material, to absorb more kinetic energy and plastically deform without fracturing.
+* 
+
