@@ -1,19 +1,25 @@
 ﻿===Summary of Newton third law of motion===
 source: https://physics.stackexchange.com/questions/45653/with-newtons-third-law-why-are-things-capable-of-moving
+
 Note: A force is a push or pull upon an object resulting from the object's interaction with another object.
 A force can cause an object with mass to change its velocity.
 
 The size of the forces on the FIRST body equals the size of the force on the SECOND body. 
 The direction of the force on the first body is opposite to the direction of the force on the second body. 
-Note: If the force of the FIRST body is higher than the reaction force of the SECOND body capable of, then the object will be moving.
+
 
 Example 1 (Person sit on a chair):
-When a person sit in the chair, the person's body (first body) exerts a downward force (gravitional force/weight) on the chair (SECOND body). If the downforce of the first body is equal or lower than the chair compressive strength, the chair exerts an same upward force on the person, then resultant force is 0, so the person is not moving. 
-If the first body exerts a downward force higher than the compressive strength of the chair, then the chair will be broken and the person will fall down.
-The person+chair (first body) exerts a downward force (gravitional force/weight) on the floor (SECOND body). If the downforce of the first body is equal or lower than the compressive strength of the floor, then the chair exerts an same upward force on the person, the resultant force is 0, so the first body is not moving. 
-If the first body exerts a downward force higher than the compressive strength of the floor, then the floor will be broken and the first body will fall down.
+When a person sit in the chair, the person's body (first body) exerts a downward force (gravitional force/weight) on the chair (SECOND body). 
+The chair exert the same upward reaction force to the person's body.
 
-Example 2 (A person push a car):
-When a person (first body) push a car (second body), the person's body exerts a forward force on the car. 
-If the first body exerts a forward force equals or lower than the friction of the car, then the car exert the same backward force to the person.
-If the first body exerts a forward force higher than the friction of the car, then the car will moving forward.
+Example 2 (A man push a car without handbrake applied):
+When a man (first body) push a car (second body), the man's body exerts a forward force on the car. 
+The car exert same backward reaction force on the man.
+The car will move forward because the friction force of the car is lower than the forward force of the man (because handbrake not applied)
+The man will not move backward because the friction force of the man's feet and the ground is higher than the reaction force of the car.
+
+Example 3 (A child wearing rollerblade push a car with handbrake applied)
+When a child (first body) push a car (second body), the child's body exerts a forward force on the car.
+The car exert same backward force on the child.
+The child will move backward because the friction force of the child's feet and the ground is lower than the reaction force of the car.
+The car will not move forward because the friction force of the car tire and the ground is higher than the forward force of the child.
