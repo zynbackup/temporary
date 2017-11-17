@@ -1,0 +1,270 @@
+﻿<html>
+<head>
+<meta charset="UTF-8">
+<script>
+//function to show and hide element
+function show(id){
+	if(document.getElementById(id).style.display === "none"){
+		document.getElementById(id).style.display="block";
+	}else{
+		document.getElementById(id).style.display="none";
+	} 
+}
+</script>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+div.code { 
+background-color: #d5dee3;
+border-top-width: 3px;
+border-top-style: double;
+border-top-color: #d3d3d3;
+border-bottom-width: 4px;
+border-bottom-style: double;
+border-bottom-color: #d3d3d3;
+padding: 4px; margin: 0em 
+}
+
+</style>
+</head>
+<body>
+<h1>===Learn Tuning DBMS Performance (Postgre)===</h1>
+<br/>
+sources: <br/>
+* https://www.postgresql.org/docs/9.6/static/using-explain.html <br/>
+* https://en.wikipedia.org/wiki/Full_table_scan <br/>
+* https://www.tutorialspoint.com/sql/sql-indexes.htm <br/>
+* https://stackoverflow.com/questions/1108/how-does-database-indexing-work/1130#1130 <br/>
+* https://stackoverflow.com/questions/5203755/why-does-postgresql-perform-sequential-scan-on-indexed-column<br/><br/>
+
+* <code>EXPLAIN</code> syntax could be use to see the breakdown process and it's estimated cost to execute an database query. <br/>
+The result is then displayed to the output message in the form of "QUERY PLAN". <br/>
+Example: <br/>
+<pre>
+--Will estimated cost for executing query: SELECT * FROM public.master_employee
+EXPLAIN SELECT * FROM public.master_employee;
+</pre><br/>
+
+* The structure of a "query plan" is a tree/hierarchy of plan nodes (process). It describe all process and the order of the process (what gets executed first) <br/>
+note: you can see the diagram of the "query plan" in pgAdmin, by selecting the query and click "Explain Query" button. (see "Explain_Query_Diagram.jpg"). <br/><br/>
+
+* Each plan node displays: <br/>
+- A process that a DBMS will execute. <br/>
+- The estimated cost to execute the process. <br/>
+- <b>The estimated number of the result rows output after executing this process. This is often less than the number scanned.</b> <br/>
+- The estimated average width/size of each result rows output by this plan node (in bytes). <br/><br/>
+
+* <b>The cost only reflects things that the planner cares about, it does not consider the time spent transmitting result rows to the client.</b> <br/><br/>
+
+* The very first line (the summary line for the topmost node), has the estimated total execution cost for the plan; <br/>
+<b>it is this number that the planner seeks to minimize.</b> <br/><br/>
+
+* The cost of an upper-level node includes the cost of all its child nodes. <br/><br/>
+
+* "-> Seq Scan" node, means that the database is processing Sequential Scan. <br/><br/>
+
+* Full Table Scan (also known as Sequential Scan) is a scan made on a database where each row of the table under scan is read in a sequential (serial) order and the columns encountered are checked for the validity of a condition. <br/>
+Full table scans are usually the slowest method of scanning a table due to the heavy amount of I/O reads required from the disk which consists of multiple seeks as well as costly disk to memory transfers.<br/><br/>
+
+* In a database, a query that is not indexed results in a full table scan. here the database processes each record of the table to find all records meeting the given requirements. Even if the query selects just a few rows from the table, all rows in the entire table will be examined. <br/><br/>
+ 
+* Indexing is a way of sorting a number of records on multiple fields. Creating an index on a field in a table creates another data structure which holds the field value, and pointer to the record it relates to. <br/>
+This index structure is then sorted, allowing Binary Searches to be performed on it.<br/>
+The downside to indexing is that these indexes require additional space on the disk, 
+since the indexes are stored together in a table using the MyISAM engine, 
+this file can quickly reach the size limits of the underlying file system if many fields within the same table are indexed. <br/><br/>
+
+* An index helps to speed up SELECT queries and WHERE clauses, but it slows down data input, with the UPDATE and the INSERT statements. <br/>
+Indexes can be created or dropped with no effect on the data.<br/><br/>
+
+* A full-table scan occurs when the columns in the WHERE clause do not have an index associated with them. You can avoid a full-table scan by creating an index on columns that are used as conditions in the WHERE clause of an SQL statement. <br/><br/>
+
+* "-> Index Scan" node, is searching the Index row, to find the locations of rows matching the index condition. <br/>
+Note: If the SELECT returns more than approximately 5-10% of all rows in the table, a sequential scan is much faster than an index scan. <br/><br/>
+
+* "-> Hash" node, is constructing the in-memory hash table from the already scanned table ("-> Seq scan" or "-> Index scan" or "-> CTE scan").
+
+* "-> Hash Join" node, is joining the scanned table ("-> Seq scan" or "-> Index scan" or "-> CTE scan") with the hash table ("-> Hash")
+
+* "-> CTE Scan" node, is performing scanning on the temporary table created from "WITH AS" syntax. <br/>
+
+* "-> Nested Loop node" is joining "inner" table and "outer" table together by "nested looping" (looping inside looping) them. Loop the outer row, then loop to search the inner row that match the outer row.<br/>
+
+* EXPLAIN ANALYZE syntax output the same as EXPLAIN syntax, but the query is executed and the time of execution is displayed for each node/process. <br/><br/>
+
+* In order to produce accurate result, the EXPLAIN QUERY should perform on table that contains minimum 2000 rows or 2000 records.<br/><br/>
+Example (already tested on "postgresql 6.2" on laptop "Acer Aspire 4752"): <br/>
+<pre>
+CREATE TABLE public.Persons (
+    PersonID integer,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255),
+CONSTRAINT pk_persons PRIMARY KEY (PersonID)
+)
+
+CREATE SEQUENCE public.persons_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  
+--Insert 2000 rows from java:
+--for(int i=0; i&lt;2000; i++){
+--	String[] lastName = {"Beckham", "John","Gregor", "Junior"};
+--	int randomNum = ThreadLocalRandom.current().nextInt(0, 3 + 1);
+--	StringBuilder sql = new StringBuilder();
+--	sql.append("INSERT INTO public.Persons VALUES ((SELECT nextval('public.persons_seq')),"); 
+--	sql.append("'"+lastName[randomNum]+"',");
+--	int randomNum2 = ThreadLocalRandom.current().nextInt(0, 3 + 1);
+--	sql.append("'"+lastName[randomNum2]+"',");
+--	sql.append("'Empire Street', 'New York');");
+--	System.out.println(sql.toString());
+--	jdbcTemplate.update(sql.toString());
+}
+
+--EXPLAIN ANALYZE 100 Rows before Create Index
+--Pre Condition:
+--100 rows
+<b>SELECT COUNT(*) FROM public.Persons</b>
+--Execute: 
+<b>EXPLAIN ANALYZE SELECT * FROM public.Persons WHERE lastname = 'John';</b>
+--Result:
+--"Seq Scan on persons  (cost=0.00..24.25 rows=27 width=39) (actual time=0.027..0.131 rows=27 loops=1)"
+--"  Filter: ((lastname)::text = 'John'::text)"
+--"  Rows Removed by Filter: 73"
+--"Total runtime: 0.196 ms"
+
+--EXPLAIN ANALYZE 100 Rows after Create Index
+--Pre Condition:
+--100 rows
+<b>SELECT COUNT(*) FROM public.Persons;</b>
+--CREATE INDEX persons_lastname_index ON public.Persons (lastname);
+--Execute: 
+<b>EXPLAIN ANALYZE SELECT * FROM public.Persons WHERE lastname = 'John';</b>
+--Result:
+--"Seq Scan on persons  (cost=0.00..24.25 rows=27 width=39) (actual time=0.030..0.128 rows=27 loops=1)"
+--"  Filter: ((lastname)::text = 'John'::text)"
+--"  Rows Removed by Filter: 73"
+--"Total runtime: 0.186 ms"
+
+
+--EXPLAIN ANALYZE 2000 Rows before Create Index
+--Pre Condition:
+--2000 rows
+<b>SELECT COUNT(*) FROM public.Persons;</b>
+--Execute: 
+<b>EXPLAIN ANALYZE SELECT * FROM public.Persons WHERE lastname = 'John';</b>
+--Result:
+--"Seq Scan on persons  (cost=0.00..45.20 rows=442 width=39) (actual time=0.027..1.092 rows=503 loops=1)"
+--"  Filter: ((lastname)::text = 'John'::text)"
+--"  Rows Removed by Filter: 1497"
+--"Total runtime: 1.200 ms"
+
+--EXPLAIN ANALYZE 2000 Rows after Create Index
+--Pre Condition:
+--2000 rows
+<b>SELECT COUNT(*) FROM public.Persons;</b>
+--"CREATE INDEX persons_lastname_index ON public.Persons (lastname);"
+--Execute:
+<b>EXPLAIN ANALYZE SELECT * FROM public.Persons WHERE lastname = 'John';</b>
+--Result:
+--"Bitmap Heap Scan on persons  (cost=12.11..41.33 rows=498 width=39) (actual time=0.549..0.911 rows=503 loops=1)"
+--"  Recheck Cond: ((lastname)::text = 'John'::text)"
+--"  ->  Bitmap Index Scan on persons_lastname_index  (cost=0.00..11.99 rows=498 width=0) (actual time=0.515..0.515 rows=503 loops=1)"
+--"        Index Cond: ((lastname)::text = 'John'::text)"
+--"Total runtime: 1.056 ms"
+</pre><br/><br/>
+
+* Separate one index per column perform better than one index for many columns. <br/>
+Example (already tested on "postgresql 6.2" on laptop "Acer Aspire 4752"): <br/>
+<pre>
+--Pre Condition:
+--2000 rows.
+SELECT COUNT(*) FROM public.persons;
+--Execute:
+EXPLAIN ANALYZE SELECT * FROM public.persons WHERE lastname = 'Bond' AND firstname = 'James' AND city = 'New York';
+--Result:
+"Seq Scan on persons  (cost=0.00..58.00 rows=1 width=39) (actual time=0.030..1.045 rows=1 loops=1)"
+"  Filter: (((lastname)::text = 'Bond'::text) AND ((firstname)::text = 'James'::text) AND ((city)::text = 'New York'::text))"
+"  Rows Removed by Filter: 1999"
+"Total runtime: 1.104 ms"
+
+
+--Pre Condition:
+--2000 rows.
+SELECT COUNT(*) FROM public.persons;
+CREATE INDEX persons_lastname_index ON public.Persons (lastname);
+CREATE INDEX persons_firstname_index ON public.Persons (firstname);
+CREATE INDEX persons_city_index ON public.Persons (city);
+--Execute:
+EXPLAIN ANALYZE SELECT * FROM public.persons WHERE lastname = 'Bond' AND firstname = 'James' AND city = 'New York';
+--Result:
+"Index Scan using persons_firstname_index on persons  (cost=0.00..8.27 rows=1 width=39) (actual time=0.063..0.065 rows=1 loops=1)"
+"  Index Cond: ((firstname)::text = 'James'::text)"
+"  Filter: (((lastname)::text = 'Bond'::text) AND ((city)::text = 'New York'::text))"
+"Total runtime: 0.120 ms"
+
+
+--Pre Condition:
+--2000 rows.
+SELECT COUNT(*) FROM public.persons;
+CREATE INDEX persons_3_index ON public.Persons (lastname, firstname, city);
+--Execute:
+EXPLAIN ANALYZE SELECT * FROM public.persons WHERE lastname = 'Bond' AND firstname = 'James' AND city = 'New York';
+--Result:
+"Index Scan using persons_3_index on persons  (cost=0.00..8.27 rows=1 width=39) (actual time=0.289..0.292 rows=1 loops=1)"
+"  Index Cond: (((lastname)::text = 'Bond'::text) AND ((firstname)::text = 'James'::text) AND ((city)::text = 'New York'::text))"
+"Total runtime: 0.363 ms"
+</pre><br/><br/>
+
+* Join table without CTE (WITH AS) is more faster. <br/>
+Example (already tested on "postgresql 6.2" on laptop "Acer Aspire 4752"): <br/>
+<pre>
+--execute:
+EXPLAIN ANALYZE SELECT persons.firstname, orders.itemid FROM public.persons 
+JOIN public.orders ON persons.personid = orders.personid;
+--result:
+"Hash Join  (cost=68.00..127.08 rows=1923 width=10) (actual time=2.829..5.087 rows=440 loops=1)"
+"  Hash Cond: (orders.personid = persons.personid)"
+"  ->  Seq Scan on orders  (cost=0.00..30.23 rows=1923 width=8) (actual time=0.022..0.704 rows=2001 loops=1)"
+"  ->  Hash  (cost=43.00..43.00 rows=2000 width=10) (actual time=2.771..2.771 rows=2000 loops=1)"
+"        Buckets: 1024  Batches: 1  Memory Usage: 71kB"
+"        ->  Seq Scan on persons  (cost=0.00..43.00 rows=2000 width=10) (actual time=0.014..1.170 rows=2000 loops=1)"
+"Total runtime: 5.318 ms"
+
+
+--execute:
+EXPLAIN ANALYZE
+WITH orders_temp AS(
+SELECT personid, itemid FROM public.orders
+)
+SELECT persons.firstname, orders_temp.itemid FROM public.persons, orders_temp WHERE persons.personid = orders_temp.personid;
+--result:
+"Hash Join  (cost=98.23..165.54 rows=1923 width=10) (actual time=3.106..7.549 rows=440 loops=1)"
+"  Hash Cond: (orders_temp.personid = persons.personid)"
+"  CTE orders_temp"
+"    ->  Seq Scan on orders  (cost=0.00..30.23 rows=1923 width=8) (actual time=0.029..1.107 rows=2001 loops=1)"
+"  ->  CTE Scan on orders_temp  (cost=0.00..38.46 rows=1923 width=8) (actual time=0.037..3.253 rows=2001 loops=1)"
+"  ->  Hash  (cost=43.00..43.00 rows=2000 width=10) (actual time=3.029..3.029 rows=2000 loops=1)"
+"        Buckets: 1024  Batches: 1  Memory Usage: 71kB"
+"        ->  Seq Scan on persons  (cost=0.00..43.00 rows=2000 width=10) (actual time=0.021..1.158 rows=2000 loops=1)"
+"Total runtime: 7.889 ms"
+</pre>
+
+</body>
+
