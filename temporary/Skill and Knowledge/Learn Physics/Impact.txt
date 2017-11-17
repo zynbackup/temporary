@@ -1,0 +1,80 @@
+===Impact===
+
+* While the car is capable to generate tremendous to accelerate due to mechanical advantage of the gear,
+the material of the typical car is not capable to protect the passenger with crash more than 65 km/hour.
+The typical car is not capable to absorb the kinetic energy of such high velocity.
+The car will deform, and the passenger will be pressed to death.
+
+See video of typical car crash test, the speed of the car is not more than 65 km/hour.
+Some automobil car is fail on the crash test 60 km/hour.
+Is it not safe inside a car that crash more than 50 km/h, even if it has seatbelt and airbag.
+Because the car will deform, and the passenger will be pressed to death.
+
+* When a car crash with wall at speed 64 km/h, and stop after the crash. The energy kinetic of the car is converted to deform the "crumple zone" of the car,
+after the material is deform, the vehicle and the passenger is decellerating.
+Then the rigid part inside the car (machine) is hit the wall, since the rigid part is hard to deform, the car will experience a sudden stop (the deceleration is high)
+The passenger inside is still moving at speed approx. 50 km/h, when the car stop, then the seatbelt will give force to slowdown the passenger speed.
+The passenger experience:
+- An impact force with the seatbelt.
+- a g-force that is cause by a deceleration.
+
+* A G-Force is actually a calculation of acceleration/deceleration, not force.
+1 g is an acceleration of 9.8 meters per second per second (m/s^2).
+30 g is an acceleration of 30*9.8 = 294 meters per second per second (m/s^2).
+
+* Real life example (A crash test of toyota agya perform by asean ncap)
+Toyota agya 2015, 830 kg (750 kg kerb mass + 80 kg passenger) car crash with rigid block at speed 64 km/h and the car collapse 1 meter and stop after the crash.
+The driver experience 35 miliseconds of impact with seatbelt (from high speed camera of mini cooper car crash test)
+
+1. What is the impact force of the car?
+2. What is the impact force of the passenger and the seat belt?
+
+1. Answer:
+Impact force x distance traveled after impact = Kinetic energy of the car
+F x D = 0.5 x mass x (velocity squared)
+F x 1 meter = 0.5 x 850 kg x (64 km/h squared)
+F x 1 meter = 0.5 x 850 kg x (18 m/s squared)
+F x 1 = 0.5 x 850 x 324
+F = 137700 Newton or 14051 kg !
+The impact force, a car experience/generate is 137700 Newton.
+
+Note: 137700 Newton is more than enough to break a human bone.
+
+2. Answer:
+I measure the distance between my driving position and the sterring wheel on my car it is only 30 cm (0.3 m).
+The area of my seat belt is ?
+The width of my seat belt is 4.5 cm (0.045 m), the length of the seat belt attach around my hip is approx 37 cm (0.37 m).
+So the area of the seat belt is 0.01665 meter squared.
+
+Impact force x distance traveled after impact = Kinetic energy of passenger.
+F x D = 0.5 x mass x (velocity squared)
+F x 30 cm = 0.5 x 80 kg x (50 m/s squared)
+F x 0.3 meter = 0.5 x 80 kg x (13.889 m/s squared)
+F x 0.3 = 0.5 x 80 x 192.9
+F x 0.3 = 7716
+F = 7716/0.3
+F = 25720 Newton or 25720/9.8 = 2624 kg !!
+
+Pressure = Force / Area
+Pressure = 25720 Newton / 0.01665 meter squared
+Pressure = 1544745 psi !!!
+
+Based on this high force the seatbelt do to the body,
+I know that Dr. Logan is right when they say:
+“From the seatbelt alone, you tend to get a fracture in most frontal crashes; 
+you’ll get a fracture in your right collar bone, if you’re a driver, 
+or the left collar bone, if you’re a passenger,” Dr. Logan said.
+
+Note: That's why you should wear the seat belt in a proper position:
+AROUND THE PELVIC BONE, not around the stomach, because the pressure is so high when a crash happen,
+if ou place the seatbelt around the stomach, your internal organ inside the stomach will be pressed and damaged.
+
+
+
+* If the car is constructed with rigid material that is hard to deform, when the car crash, the deceleration of the car would be very fast,
+resulting the deceleration of the passenger is very fast too,
+
+
+* The key to minimize damage to the passenger of the car is to decelerate the passenger slowly, 
+with the material that is higher in area, to minimize the pressure to the passenger body while decelerate it.
+
