@@ -1286,7 +1286,7 @@ On displaying <code>&lt;p:dataTable&gt;</code> tag, Primefaces provide a mechani
 This data is embedded in a java class that extends the abstract class: <code>org.primefaces.model.LazyDataModel<T></code> and override the "load" method. <br/>
 The system will call the "load" method to display a data everytime user do the action that explained previously. <br/><br/>
 
-Example 1: <br/>
+Example: <br/>
 
 <div class="code">
 <b>data-table-lazy.xhtml:</b><br/>
@@ -1421,7 +1421,7 @@ public class LazyDataModelCar extends LazyDataModel&lt;Car>{
 	 * @param pageSize - Defined in "rows" attribute of &lt;dataTable> tag, indicates the maximum rows of data this "dataTable" could display per page.
 	 * @param sortField - If the "dataTable" is initially loaded, the system will provide null. Filled when user click the specific column/field to sort. Only if the "sortBy" attribute is filled.
 	 * @param sortOrder - The system will by default provide "ASCENDING".
-	 * @param filters - Filled when user input text to filter the data, by inputting some text in the textbox to get all the data that match the text. Example: The HashMap will filled with key: "brand" and value: "chevrolet", if user input text "chevrolet" in the "dataTable" column that filterBy=#{car.brand}.
+	 * @param filters - Filled when user input text to filter the data, by inputting some text in the textbox to get all the data that match the text. Example: The HashMap will filled with key: "brand" and value: "chevrolet", if user input text "chevrolet" in the column that filterBy=#{car.brand}.
 	 * @return The list of data to be displayed in "dataTable".
 	 */
 	@Override
@@ -1523,113 +1523,6 @@ public class Car {
 	
 }
 </pre></div><br/>
-
-Example 2: <br/>
-<div class="code">
-<b>data-table-lazy-2.xhtml:</b><br/>
-<pre>
-&lt;html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-	
-<!-- Primefaces require <h:head> tag, otherwise, it will not work. -->
-&lt;h:head>&lt;/h:head>
-
-&lt;h:body>
-	
-	&lt;!-- The "rows" attribute indicate the maximum rows of data that could be displayed per page. -->
-	&lt;p:dataTable var="car" value="#{dataTableLazyBean2.cars}" paginator="true" rows="5" lazy="true">
-		&lt;p:column headerText="Id">
-			&lt;h:outputText value="#{car.id}" >&lt;/h:outputText>
-		&lt;/p:column>
-		&lt;p:column headerText="Brand">
-			&lt;h:outputText value="#{car.brand}" >&lt;/h:outputText>
-		&lt;/p:column>
-		&lt;p:column headerText="Classification">
-			&lt;h:outputText value="#{car.classification}">&lt;/h:outputText>
-		&lt;/p:column>
-		&lt;p:column headerText="Color">
-			&lt;h:outputText value="#{car.color}">&lt;/h:outputText>
-		&lt;/p:column>
-	&lt;/p:dataTable>
-
-&lt;/h:body>
-
-&lt;/html>
-</pre><br/>
-<b>DataTableLazyBean2.java:</b><br/>
-<pre>
-package com.reinard.bean;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-
-import org.primefaces.model.LazyDataModel;
-
-import com.reinard.model.Car;
-
-@ManagedBean
-@SessionScoped
-public class DataTableLazyBean2 {
-	
-	/** The lazy data model. */
-	private LazyDataModel&lt;Car> lazyDataModel;
-	
-	public LazyDataModel&lt;Car> getCars() {
-		if (lazyDataModel == null) {
-			lazyDataModel = new LazyDataModelCar2();
-		}
-		return lazyDataModel;
-	}
-
-}
-</pre>
-
-<b>Car.java:</b><br/>
-<pre>
-package com.reinard.model;
-
-public class Car {
-	
-	private String brand;
-	private String classification;
-	private String color;
-	
-	public Car(String brand, String classification, String color) {
-		super();
-		setBrand(brand);
-		setClassification(classification);
-		setColor(color);
-	}
-	
-	public String getBrand() {
-		return brand;
-	}
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-	public String getClassification() {
-		return classification;
-	}
-	public void setClassification(String classification) {
-		this.classification = classification;
-	}
-	public String getColor() {
-		return color;
-	}
-	public void setColor(String color) {
-		this.color = color;
-	}
-	
-	@Override
-	public String toString(){
-		return "car: "+getBrand()+", "+getClassification()+", "+getColor();
-	}
-	
-}
-</pre></div><br/>
-
 
 <b>* <code>&lt;p:selectOneMenu&gt;</code> component (basic drop-down list): </b><br/>
 Example: <br/>
@@ -1740,7 +1633,7 @@ public class DropDownListBean implements Serializable{
 	
 }
 
-</pre></div><br/><br/>
+</pre><br/></div>
 
 <b>* <code>&lt;p:selectOneMenu&gt;</code> component (drop-down list with ajax): </b><br/>
 Example: <br/>
